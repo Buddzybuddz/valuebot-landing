@@ -11,6 +11,7 @@
   <meta property="og:title" content="ValueBet — Analyse sportive objective" />
   <meta property="og:description" content="Des indicateurs clairs pour analyser les matchs de football de manière rationnelle." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://budzybuddz.github.io/valuebet-landing/" />
 
   <style>
     :root{
@@ -27,6 +28,63 @@
       --max: 1040px;
       --accent: #ffffff;
       --accent2: rgba(255,255,255,0.16);
+    }
+
+    /* ===== ValueBot Hero ===== */
+    .valuebot{
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .valuebot-inner{
+      position: relative;
+      height: 100%;
+      min-height: 420px;
+      border-radius: var(--radius2);
+    }
+
+    .valuebot img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: contrast(1.05) saturate(1.1);
+    }
+
+    /* overlay */
+    .valuebot-overlay{
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 18px 16px;
+      background: linear-gradient(
+        180deg,
+        rgba(11,13,18,0) 0%,
+        rgba(11,13,18,0.55) 45%,
+        rgba(11,13,18,0.85) 100%
+      );
+      backdrop-filter: blur(2px);
+    }
+
+    .valuebot-overlay h3{
+      margin: 8px 0 6px;
+      font-size: 22px;
+      letter-spacing: 0.4px;
+      color: var(--text);
+    }
+
+    .valuebot-overlay p{
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 38ch;
+    }
+
+    /* mobile */
+    @media (max-width: 980px){
+      .valuebot-inner{
+        min-height: 360px;
+      }
     }
 
     *{ box-sizing:border-box; }
@@ -156,7 +214,7 @@
     }
     .btnPrimary:hover{ background: rgba(255,255,255,0.92); }
 
-    /* Right hero: score preview */
+    /* Right hero: score preview (base styles reused) */
     .preview{
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
@@ -174,49 +232,6 @@
       letter-spacing: 0.6px;
       text-transform: uppercase;
       color: var(--muted2);
-    }
-    .scoreBox{
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 14px 14px;
-      background: rgba(255,255,255,0.03);
-    }
-    .row{
-      display:flex; justify-content:space-between; gap:12px;
-      padding: 10px 10px;
-      border-radius: 12px;
-    }
-    .row + .row{ margin-top:8px; background: rgba(255,255,255,0.03); }
-    .team{
-      display:flex; flex-direction:column;
-      gap: 2px;
-    }
-    .team .name{ font-weight: 720; }
-    .team .meta{ color: var(--muted2); font-size: 13px; }
-    .pct{
-      font-weight: 800;
-      font-size: 18px;
-      letter-spacing: -0.3px;
-    }
-    .gap{
-      margin-top: 12px;
-      border-top: 1px dashed rgba(255,255,255,0.16);
-      padding-top: 12px;
-      color: var(--muted);
-      display:flex;
-      justify-content:space-between;
-      gap: 10px;
-      font-size: 14px;
-    }
-    .pill{
-      display:inline-flex; align-items:center;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      color: var(--muted);
-      font-size: 13px;
-      gap: 8px;
     }
 
     /* Sections */
@@ -407,34 +422,22 @@
         </div>
       </div>
 
-      <aside class="preview" aria-label="Aperçu de lecture des scores">
-        <h3>Aperçu — Lecture des scores</h3>
-
-        <div class="scoreBox">
-          <div class="row">
-            <div class="team">
-              <div class="name">Équipe A</div>
-              <div class="meta">Score de performance</div>
-            </div>
-            <div class="pct">78%</div>
+      <aside class="preview valuebot" aria-label="ValueBot — IA d'analyse sportive">
+        <div class="valuebot-inner">
+          <img
+            src="assets/valuebot.png"
+            alt="ValueBot, intelligence artificielle d'analyse sportive"
+            loading="eager"
+          />
+          <div class="valuebot-overlay">
+            <div class="pill">IA • Analyse • Indicateurs</div>
+            <h3>ValueBot</h3>
+            <p>
+              Moteur d’analyse conçu pour détecter
+              <strong>les écarts de performance significatifs</strong>
+              à partir de données sportives objectives.
+            </p>
           </div>
-
-          <div class="row">
-            <div class="team">
-              <div class="name">Équipe B</div>
-              <div class="meta">Score de performance</div>
-            </div>
-            <div class="pct">52%</div>
-          </div>
-
-          <div class="gap">
-            <span>Écart significatif détecté</span>
-            <span class="pill">Δ 26 pts</span>
-          </div>
-        </div>
-
-        <div class="note">
-          <strong>Lecture simple :</strong> plus l’écart est important, plus la différence de performance mesurée est forte selon le modèle.
         </div>
       </aside>
     </section>
@@ -525,25 +528,11 @@
       <h2>Comprendre l’écart, simplement</h2>
 
       <div class="twoCols">
-        <div class="scoreBox" style="margin:0;">
-          <div class="row">
-            <div class="team">
-              <div class="name">Score équipe A</div>
-              <div class="meta">Exemple</div>
-            </div>
-            <div class="pct">78%</div>
-          </div>
-          <div class="row">
-            <div class="team">
-              <div class="name">Score équipe B</div>
-              <div class="meta">Exemple</div>
-            </div>
-            <div class="pct">52%</div>
-          </div>
-          <div class="gap">
-            <span>Écart significatif détecté</span>
-            <span class="pill">Δ 26 pts</span>
-          </div>
+        <div class="note" style="margin:0;">
+          <strong>Exemple :</strong><br/>
+          Score équipe A : 78%<br/>
+          Score équipe B : 52%<br/>
+          Écart significatif détecté
         </div>
 
         <div class="note" style="margin:0;">
