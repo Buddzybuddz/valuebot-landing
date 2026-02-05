@@ -42,6 +42,11 @@
       height: 100%;
       min-height: 420px;
       border-radius: var(--radius2);
+
+      /* 🔵 Glow subtil */
+      box-shadow:
+      0 0 0 1px rgba(255,255,255,0.08),
+      0 0 60px rgba(80,160,255,0.18);
     }
 
     .valuebot img{
@@ -50,6 +55,15 @@
       object-fit: cover;
       display: block;
       filter: contrast(1.05) saturate(1.1);
+    }
+
+    .valuebot img{
+      transition: transform .6s ease, filter .6s ease;
+    }
+
+    .valuebot:hover img{
+      transform: scale(1.02);
+      filter: contrast(1.1) saturate(1.15);
     }
 
     /* overlay */
@@ -430,7 +444,7 @@
             loading="eager"
           />
           <div class="valuebot-overlay">
-            <div class="pill">IA • Analyse • Indicateurs</div>
+            <div class="pill">IA • Analyse • Indicateurs • Beta</div>
             <h3>ValueBot</h3>
             <p>
               Moteur d’analyse conçu pour détecter
