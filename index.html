@@ -3,40 +3,635 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ValueBot — Analyse de matchs</title>
-  <meta name="description" content="Analyse sportive basée sur des indicateurs objectifs pour éclairer vos décisions." />
+  <title>ValueBet — Analyse sportive objective</title>
+  <meta name="description" content="ValueBet transforme des milliers de données sportives en scores de performance clairs pour vous aider à prendre de meilleures décisions." />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Open Graph (partage) -->
+  <meta property="og:title" content="ValueBet — Analyse sportive objective" />
+  <meta property="og:description" content="Des indicateurs clairs pour analyser les matchs de football de manière rationnelle." />
+  <meta property="og:type" content="website" />
+
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;line-height:1.5}
-    .wrap{max-width:980px;margin:0 auto;padding:48px 20px}
-    .hero{padding:48px 0}
-    h1{font-size:42px;line-height:1.1;margin:0 0 14px}
-    p{color:#444;font-size:18px;margin:0 0 14px}
-    .cta{display:inline-block;margin-top:14px;padding:12px 18px;border-radius:10px;background:#111;color:#fff;text-decoration:none}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
-    .card{border:1px solid #e7e7e7;border-radius:14px;padding:16px}
-    @media (max-width:780px){.grid{grid-template-columns:1fr} h1{font-size:34px}}
+    :root{
+      --bg: #0b0d12;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.08);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.72);
+      --muted2: rgba(255,255,255,0.60);
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 14px 40px rgba(0,0,0,0.45);
+      --radius: 18px;
+      --radius2: 24px;
+      --max: 1040px;
+      --accent: #ffffff;
+      --accent2: rgba(255,255,255,0.16);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 25% 10%, rgba(255,255,255,0.10), transparent 60%),
+        radial-gradient(900px 500px at 85% 20%, rgba(255,255,255,0.08), transparent 60%),
+        radial-gradient(900px 600px at 50% 100%, rgba(255,255,255,0.06), transparent 60%),
+        var(--bg);
+      line-height: 1.5;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 28px 18px 60px; }
+
+    /* Top bar */
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px; padding: 10px 0 26px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight: 750; letter-spacing: 0.3px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius: 10px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.05));
+      box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+      display:grid; place-items:center;
+      font-size: 16px;
+    }
+    nav{ display:flex; gap:14px; flex-wrap:wrap; }
+    .navlink{
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+    }
+    .navlink:hover{
+      border-color: var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+    }
+
+    /* Hero */
+    .hero{
+      padding: 22px 0 34px;
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .heroCard{
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      padding: 26px 22px;
+      overflow:hidden;
+      position:relative;
+    }
+    .heroCard::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(800px 260px at 25% 0%, rgba(255,255,255,0.14), transparent 55%);
+      pointer-events:none;
+    }
+    h1{
+      margin:0 0 10px;
+      font-size: 44px;
+      line-height: 1.08;
+      letter-spacing: -0.8px;
+    }
+    .subtitle{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 62ch;
+    }
+
+    .bullets{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .bullet{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      border-radius: 14px;
+      padding: 12px 12px;
+      color: var(--muted);
+      display:flex; gap:10px; align-items:flex-start;
+    }
+    .bullet .emoji{ font-size: 18px; line-height:1; margin-top:2px; }
+    .bullet strong{ color: var(--text); font-weight: 650; }
+
+    .ctaRow{
+      display:flex; gap: 12px; align-items:center; flex-wrap:wrap;
+      margin-top: 18px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-weight: 700;
+      cursor:pointer;
+      transition: transform .08s ease, background .15s ease, border-color .15s ease;
+    }
+    .btn:hover{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.18); }
+    .btn:active{ transform: translateY(1px); }
+
+    .btnPrimary{
+      background: var(--accent);
+      color: #0b0d12;
+      border-color: rgba(255,255,255,0.35);
+    }
+    .btnPrimary:hover{ background: rgba(255,255,255,0.92); }
+
+    /* Right hero: score preview */
+    .preview{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      border-radius: var(--radius2);
+      padding: 18px 18px;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap: 14px;
+    }
+    .preview h3{
+      margin:0;
+      font-size: 14px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--muted2);
+    }
+    .scoreBox{
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 14px;
+      background: rgba(255,255,255,0.03);
+    }
+    .row{
+      display:flex; justify-content:space-between; gap:12px;
+      padding: 10px 10px;
+      border-radius: 12px;
+    }
+    .row + .row{ margin-top:8px; background: rgba(255,255,255,0.03); }
+    .team{
+      display:flex; flex-direction:column;
+      gap: 2px;
+    }
+    .team .name{ font-weight: 720; }
+    .team .meta{ color: var(--muted2); font-size: 13px; }
+    .pct{
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.3px;
+    }
+    .gap{
+      margin-top: 12px;
+      border-top: 1px dashed rgba(255,255,255,0.16);
+      padding-top: 12px;
+      color: var(--muted);
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      font-size: 14px;
+    }
+    .pill{
+      display:inline-flex; align-items:center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 13px;
+      gap: 8px;
+    }
+
+    /* Sections */
+    section{ margin-top: 26px; }
+    .sectionCard{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      border-radius: var(--radius2);
+      padding: 22px 20px;
+    }
+    .kicker{
+      color: var(--muted2);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin: 0 0 10px;
+    }
+    h2{
+      margin: 0 0 10px;
+      font-size: 26px;
+      letter-spacing: -0.3px;
+    }
+    .p{ margin: 0 0 10px; color: var(--muted); }
+    .list{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style:none;
+    }
+    .li{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      border-radius: 14px;
+      padding: 12px 12px;
+      color: var(--muted);
+    }
+    .li strong{ color: var(--text); font-weight: 650; }
+    .twoCols{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .note{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+    .note strong{ color: var(--text); }
+
+    /* Process */
+    .steps{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .step{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      border-radius: 16px;
+      padding: 14px 12px;
+      color: var(--muted);
+      min-height: 112px;
+    }
+    .step .n{
+      width: 28px; height: 28px;
+      display:inline-grid; place-items:center;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .step strong{ color: var(--text); font-weight: 680; display:block; margin-bottom:6px; }
+
+    /* Audience */
+    .badgeRow{ display:flex; flex-wrap:wrap; gap: 8px; margin-top: 10px; }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Final CTA */
+    .ctaFinal{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 14px; flex-wrap:wrap;
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+    }
+    .ctaFinal .text{
+      display:flex; flex-direction:column; gap: 4px;
+      max-width: 62ch;
+    }
+    .ctaFinal .text .t{ font-weight: 800; font-size: 16px; }
+    .ctaFinal .text .s{ color: var(--muted); font-size: 14px; }
+
+    /* Footer */
+    footer{
+      margin-top: 26px;
+      color: var(--muted2);
+      font-size: 13px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+    .footerLinks{ display:flex; gap: 12px; flex-wrap:wrap; }
+    .footerLinks a{
+      color: var(--muted2);
+      border-bottom: 1px solid transparent;
+    }
+    .footerLinks a:hover{ color: var(--text); border-bottom-color: rgba(255,255,255,0.35); }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .bullets{ grid-template-columns: 1fr; }
+      .twoCols{ grid-template-columns: 1fr; }
+      .list{ grid-template-columns: 1fr; }
+      .steps{ grid-template-columns: 1fr 1fr; }
+      h1{ font-size: 38px; }
+    }
+    @media (max-width: 520px){
+      .steps{ grid-template-columns: 1fr; }
+      h1{ font-size: 34px; }
+    }
   </style>
 </head>
+
 <body>
   <div class="wrap">
-    <section class="hero">
-      <h1>Analysez les matchs de football avec des indicateurs objectifs</h1>
-      <p>ValueBot transforme des données sportives en scores de performance comparatifs pour vous aider à prendre de meilleures décisions.</p>
-      <a class="cta" href="#acces">Découvrir l’analyse du jour</a>
-      <div class="grid">
-        <div class="card"><strong>📊 Multi-facteurs</strong><br/>Forme, disponibilité, historique, récupération…</div>
-        <div class="card"><strong>🤖 Modèle transparent</strong><br/>Scores lisibles, logique claire, traçabilité.</div>
-        <div class="card"><strong>🔍 Focus</strong><br/>Mise en évidence des écarts significatifs.</div>
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">VB</div>
+        <div>ValueBet</div>
+      </div>
+      <nav>
+        <a class="navlink" href="#probleme">Problème</a>
+        <a class="navlink" href="#solution">Solution</a>
+        <a class="navlink" href="#process">Méthode</a>
+        <a class="navlink" href="#scores">Scores</a>
+        <a class="navlink" href="#audience">Pour qui ?</a>
+      </nav>
+    </div>
+
+    <!-- 1) HERO -->
+    <section class="hero" id="top">
+      <div class="heroCard">
+        <h1>Analysez les matchs de football avec des indicateurs objectifs</h1>
+        <p class="subtitle">
+          ValueBet transforme des milliers de données sportives en scores de performance clairs
+          pour vous aider à prendre de meilleures décisions.
+        </p>
+
+        <div class="ctaRow">
+          <a class="btn btnPrimary" href="#analyses" aria-label="Découvrir l'analyse du jour">
+            Découvrir l’analyse du jour <span aria-hidden="true">→</span>
+          </a>
+          <a class="btn" href="#process" aria-label="Voir comment fonctionne l'analyse">
+            Voir la méthodologie
+          </a>
+        </div>
+
+        <div class="bullets" aria-label="Points clés">
+          <div class="bullet"><span class="emoji">📊</span><div><strong>Analyse multi-facteurs automatisée</strong><br/>Forme, disponibilité, historique, récupération…</div></div>
+          <div class="bullet"><span class="emoji">🤖</span><div><strong>Modèles statistiques avancés</strong><br/>Approche structurée et reproductible.</div></div>
+          <div class="bullet"><span class="emoji">🧠</span><div><strong>Lecture simple des déséquilibres de match</strong><br/>Des scores synthétiques, faciles à comparer.</div></div>
+          <div class="bullet"><span class="emoji">🔍</span><div><strong>Méthodologie transparente</strong><br/>Indicateurs explicables, logique claire.</div></div>
+        </div>
+      </div>
+
+      <aside class="preview" aria-label="Aperçu de lecture des scores">
+        <h3>Aperçu — Lecture des scores</h3>
+
+        <div class="scoreBox">
+          <div class="row">
+            <div class="team">
+              <div class="name">Équipe A</div>
+              <div class="meta">Score de performance</div>
+            </div>
+            <div class="pct">78%</div>
+          </div>
+
+          <div class="row">
+            <div class="team">
+              <div class="name">Équipe B</div>
+              <div class="meta">Score de performance</div>
+            </div>
+            <div class="pct">52%</div>
+          </div>
+
+          <div class="gap">
+            <span>Écart significatif détecté</span>
+            <span class="pill">Δ 26 pts</span>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>Lecture simple :</strong> plus l’écart est important, plus la différence de performance mesurée est forte selon le modèle.
+        </div>
+      </aside>
+    </section>
+
+    <!-- 2) PROBLÈME -->
+    <section id="probleme" class="sectionCard">
+      <p class="kicker">2 — Le problème</p>
+      <h2>Difficile d’évaluer un match de manière objective</h2>
+      <p class="p">Aujourd’hui, il est difficile d’évaluer objectivement un match :</p>
+
+      <ul class="list">
+        <li class="li"><strong>Trop d’informations dispersées</strong><br/>Les données sont partout, rarement synthétisées.</li>
+        <li class="li"><strong>Analyses subjectives ou biaisées</strong><br/>Interprétations variables, difficilement comparables.</li>
+        <li class="li"><strong>Aucun indicateur synthétique fiable</strong><br/>Manque de repères simples et cohérents.</li>
+        <li class="li"><strong>Comparer deux équipes devient complexe</strong><br/>Sans cadre rationnel, la décision est plus difficile.</li>
+      </ul>
+    </section>
+
+    <!-- 3) SOLUTION -->
+    <section id="solution" class="sectionCard">
+      <p class="kicker">3 — La solution</p>
+      <h2>Un outil d’analyse sportive avancée</h2>
+      <p class="p">
+        ValueBet centralise et structure les données clés d’un match pour produire un
+        <strong>score de performance comparatif</strong> entre deux équipes.
+      </p>
+
+      <div class="twoCols">
+        <div>
+          <h3 style="margin:0 0 10px; font-size:16px; color:var(--text);">Données utilisées (safe)</h3>
+          <ul class="list" style="grid-template-columns:1fr; margin-top:0;">
+            <li class="li">Forme récente</li>
+            <li class="li">Historique des confrontations</li>
+            <li class="li">Disponibilité des joueurs</li>
+            <li class="li">Fatigue et récupération</li>
+            <li class="li">Performance domicile / extérieur</li>
+            <li class="li">Niveau de compétition</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="margin:0 0 10px; font-size:16px; color:var(--text);">Engagements</h3>
+          <div class="note">👉 Aucune promesse financière</div>
+          <div class="note">👉 Aucune incitation au jeu</div>
+          <div class="note">
+            <strong>Objectif :</strong> fournir des indicateurs clairs et comparables pour éclairer la décision.
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="acces">
-      <h2>Accès</h2>
-      <p>Ajoute ici ton bouton Stripe / inscription (quand prêt).</p>
+    <!-- 4) PROCESS -->
+    <section id="process" class="sectionCard">
+      <p class="kicker">4 — Comment fonctionne l’analyse</p>
+      <h2>Un processus neutre, structuré et reproductible</h2>
+
+      <div class="steps" aria-label="Étapes de l'analyse">
+        <div class="step">
+          <div class="n">1</div>
+          <strong>Collecte automatique des données</strong>
+          Agrégation de signaux sportifs utiles, de manière systématique.
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <strong>Normalisation des indicateurs</strong>
+          Mise au même référentiel pour comparer proprement les équipes.
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <strong>Calcul d’un score de performance</strong>
+          Synthèse des facteurs en un score clair et lisible.
+        </div>
+        <div class="step">
+          <div class="n">4</div>
+          <strong>Écarts significatifs</strong>
+          Mise en évidence des différences statistiquement marquées.
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:14px;">
+        <strong>Phrase clé :</strong> Les écarts de score mettent en lumière des situations statistiquement déséquilibrées.
+      </div>
     </section>
 
-    <footer style="margin-top:48px;border-top:1px solid #eee;padding-top:18px;color:#666;font-size:14px">
-      © ValueBot — Analyses à titre informatif, sans incitation au jeu.
+    <!-- 5) LECTURE DES SCORES -->
+    <section id="scores" class="sectionCard">
+      <p class="kicker">5 — Lecture des scores</p>
+      <h2>Comprendre l’écart, simplement</h2>
+
+      <div class="twoCols">
+        <div class="scoreBox" style="margin:0;">
+          <div class="row">
+            <div class="team">
+              <div class="name">Score équipe A</div>
+              <div class="meta">Exemple</div>
+            </div>
+            <div class="pct">78%</div>
+          </div>
+          <div class="row">
+            <div class="team">
+              <div class="name">Score équipe B</div>
+              <div class="meta">Exemple</div>
+            </div>
+            <div class="pct">52%</div>
+          </div>
+          <div class="gap">
+            <span>Écart significatif détecté</span>
+            <span class="pill">Δ 26 pts</span>
+          </div>
+        </div>
+
+        <div class="note" style="margin:0;">
+          Plus l’écart est important, plus la différence de performance mesurée est forte selon le modèle.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6) TRANSPARENCE -->
+    <section id="transparence" class="sectionCard">
+      <p class="kicker">6 — Transparence & méthodologie</p>
+      <h2>Rassurer par la clarté</h2>
+
+      <ul class="list">
+        <li class="li"><strong>Méthodologie documentée</strong><br/>Cadre clair, explicable et stable.</li>
+        <li class="li"><strong>Historique des analyses conservé</strong><br/>Traçabilité et suivi dans le temps.</li>
+        <li class="li"><strong>Indicateurs explicables</strong><br/>Compréhension des facteurs principaux.</li>
+        <li class="li"><strong>Pas de décisions automatiques</strong><br/>Outil d’aide à la lecture, sans automatisme.</li>
+      </ul>
+
+      <div class="note">
+        <strong>Phrase clé :</strong> ValueBet est un outil d’aide à l’analyse, pas un système de prédiction garanti.
+      </div>
+    </section>
+
+    <!-- 7) AUDIENCE -->
+    <section id="audience" class="sectionCard">
+      <p class="kicker">7 — À qui s’adresse ValueBet ?</p>
+      <h2>Pour les profils rationnels</h2>
+
+      <div class="twoCols">
+        <div class="note" style="margin:0;">
+          <strong>✅ Pour :</strong>
+          <div class="badgeRow" aria-label="Pour">
+            <span class="badge">📌 Amateurs d’analyse football</span>
+            <span class="badge">📊 Passionnés de data sportive</span>
+            <span class="badge">🧠 Utilisateurs rationnels</span>
+            <span class="badge">✅ Décideurs disciplinés</span>
+          </div>
+        </div>
+
+        <div class="note" style="margin:0;">
+          <strong>❌ Pas pour :</strong>
+          <div class="badgeRow" aria-label="Pas pour">
+            <span class="badge">⚠️ Recherche de gains rapides</span>
+            <span class="badge">🚫 Contenu sensationnaliste</span>
+            <span class="badge">🎭 Décisions émotionnelles</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8) CTA FINAL -->
+    <section id="analyses" class="sectionCard">
+      <p class="kicker">8 — Accès</p>
+      <h2>Accéder aux analyses du jour</h2>
+
+      <div class="ctaFinal">
+        <div class="text">
+          <div class="t">Accéder aux analyses du jour</div>
+          <div class="s">Consultation libre – données objectives – approche responsable</div>
+        </div>
+        <a class="btn btnPrimary" href="#" aria-label="Accéder aux analyses du jour">
+          Accéder <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="note" style="margin-top:14px;">
+        Astuce : remplace le lien du bouton <strong>Accéder</strong> par ton URL Stripe (ou ta page app) quand tu seras prêt.
+      </div>
+    </section>
+
+    <!-- 9) FOOTER -->
+    <footer>
+      <div>
+        <strong>ValueBet</strong><br />
+        Mentions légales • Jeu responsable (formulation neutre)
+      </div>
+
+      <div class="footerLinks">
+        <a href="#top">Haut de page</a>
+        <a href="#transparence">Méthodologie</a>
+        <a href="#audience">Pour qui ?</a>
+      </div>
+
+      <div style="max-width: 58ch;">
+        Disclaimer : Les analyses proposées sont fournies à titre informatif et ne constituent pas un conseil financier ou une incitation au jeu.
+      </div>
     </footer>
   </div>
 </body>
