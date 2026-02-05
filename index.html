@@ -25,6 +25,14 @@
       --radius2: 24px;
       --max: 1040px;
       --accent: #ffffff;
+      --accent-blue: #5fd3ff; /* bleu yeux IA */
+    }
+
+    .accentTitle{
+      color: var(--accent-blue);
+      text-shadow:
+        0 0 12px rgba(95,211,255,0.45),
+        0 0 30px rgba(95,211,255,0.25);
     }
 
     *{ box-sizing:border-box; }
@@ -113,25 +121,23 @@
     /* Burger button (mobile) */
     .burger{
       display:none;
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
+      width:40px;
+      height:40px;
+      border-radius:10px;
+      border:1px solid var(--border);
       background: rgba(255,255,255,0.06);
-      box-shadow: 0 8px 22px rgba(0,0,0,0.25);
       cursor:pointer;
       align-items:center;
       justify-content:center;
-      gap: 5px;
-      padding: 0;
-      flex: 0 0 auto;
     }
+    
     .burger span{
       display:block;
-      width: 18px;
-      height: 2px;
-      background: rgba(255,255,255,0.85);
-      border-radius: 999px;
+      width:20px;
+      height:2px;
+      background:#fff;
+      margin:3px 0;
+      border-radius:2px;
       transition: transform .2s ease, opacity .2s ease;
     }
 
@@ -139,8 +145,7 @@
     .navBackdrop{
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(2px);
+      background: rgba(0,0,0,0.75);
       z-index: 40;
       display:none;
     }
@@ -148,8 +153,8 @@
     /* ===== Sections base ===== */
     section{ margin-top: 26px; }
     .sectionCard{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.08);
+      background: #0b0d12; /* exactement la couleur du body */
       border-radius: var(--radius2);
       padding: 22px 20px;
     }
@@ -552,7 +557,7 @@
     <!-- Section 1 : ValueBot C'est quoi ? -->
     <section class="hero" id="cestquoi">
       <div class="heroCard">
-        <h1>ValueBot, c’est quoi ?</h1>
+        <h1 class="accentTitle">ValueBot, c’est quoi ?</h1>
         <p class="subtitle">
           Analyse des matchs de football <strong>équilibrés</strong> ou <strong>indécis</strong>.<br/>
           Création, analyse et comparaison d’indicateurs sportifs à partir de multiples données.<br/>
