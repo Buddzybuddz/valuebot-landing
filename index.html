@@ -4,12 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ValueBot — Analyse sportive objective</title>
-  <meta name="description" content="ValueBot analyse les matchs de football équilibrés et envoie chaque jour une analyse claire par e-mail." />
+  <meta name="description" content="ValueBot analyse les matchs de football équilibrés et envoie chaque jour une analyse claire par email." />
   <meta name="robots" content="index,follow" />
 
   <!-- Open Graph (partage) -->
   <meta property="og:title" content="ValueBot — Analyse sportive objective" />
-  <meta property="og:description" content="Analyse des matchs équilibrés, indicateurs structurés et e-mail quotidien." />
+  <meta property="og:description" content="Analyse des matchs équilibrés, indicateurs structurés et email quotidien." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://budzybuddz.github.io/valuebot-landing/" />
 
@@ -71,6 +71,21 @@
       padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
+    }
+    .navlink.cta {
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.08);
+      font-weight: 700;
+    }
+    
+    .navlink.cta.primary {
+      background: var(--accent);
+      color: #0b0d12;
+      border-color: rgba(255,255,255,0.4);
+    }
+    
+    .navlink.cta.primary:hover {
+      background: rgba(255,255,255,0.92);
     }
     .navlink:hover{
       border-color: var(--border);
@@ -410,7 +425,8 @@
         <a class="navlink" href="#asert">Ça sert à quoi ?</a>
         <a class="navlink" href="#process">Comment ça marche ?</a>
         <a class="navlink" href="#audience">Pour qui ?</a>
-        <a class="navlink" href="#email">Recevoir l’e-mail</a>
+        <a class="navlink cta primary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">Recevoir l’email</a>
+        <a class="navlink cta primary" href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener">Gérer mon abonnement</a>
       </nav>
     </div>
 
@@ -420,13 +436,13 @@
         <h1>ValueBot, c’est quoi ?</h1>
         <p class="subtitle">
           ValueBot analyse les matchs de football <strong>équilibrés</strong> ou <strong>indécis</strong> et produit une
-          <strong>analyse claire</strong> envoyée par e-mail <strong>chaque jour</strong>.
+          <strong>analyse claire</strong> envoyée par mail <strong>chaque jour</strong>.
         </p>
 
         <div class="ctaRow">
           <!-- Remplace href par ton lien Stripe Checkout -->
-          <a class="btn btnPrimary" href="#email" aria-label="Recevoir l'e-mail quotidien">
-            Recevoir l’e-mail quotidien <span aria-hidden="true">→</span>
+          <a class="btn btnPrimary" href="#email" aria-label="Recevoir l'email quotidien">
+            Recevoir l’email quotidien <span aria-hidden="true">→</span>
           </a>
           <a class="btn" href="#process" aria-label="Voir comment fonctionne ValueBot">
             Voir comment ça marche
@@ -437,7 +453,7 @@
           <div class="bullet"><span class="emoji">⚖️</span><div><strong>Matchs équilibrés</strong><br/>Focus sur les rencontres difficiles à lire.</div></div>
           <div class="bullet"><span class="emoji">🧩</span><div><strong>Indicateurs structurés</strong><br/>Création, analyse et comparaison d’indicateurs sportifs.</div></div>
           <div class="bullet"><span class="emoji">📝</span><div><strong>Analyse écrite</strong><br/>Une lecture argumentée, simple à exploiter.</div></div>
-          <div class="bullet"><span class="emoji">📩</span><div><strong>E-mail quotidien</strong><br/>Envoi automatique chaque jour.</div></div>
+          <div class="bullet"><span class="emoji">📩</span><div><strong>email quotidien</strong><br/>Envoi automatique chaque jour.</div></div>
         </div>
       </div>
 
@@ -553,10 +569,10 @@
 
     <!-- Section 5 : Comment recevoir l'email quotidien ? -->
     <section id="email" class="sectionCard">
-      <p class="kicker">5 — Recevoir l’e-mail quotidien</p>
-      <h2>Accéder à l’e-mail chaque jour</h2>
+      <p class="kicker">5 — Recevoir l’email quotidien</p>
+      <h2>Accéder à l’email chaque jour</h2>
       <p class="p">
-        Deux actions : s’abonner pour recevoir l’e-mail quotidien, puis gérer l’abonnement (pause / résiliation) via Stripe.
+        Deux actions : s’abonner pour recevoir l’email quotidien, puis gérer l’abonnement (pause / résiliation) via Stripe.
       </p>
 
       <div class="ctaRow">
@@ -586,7 +602,7 @@
       <div class="footerLinks">
         <a href="#cestquoi">C’est quoi ?</a>
         <a href="#process">Méthode</a>
-        <a href="#email">Recevoir l’e-mail</a>
+        <a href="#email">Recevoir l’email</a>
       </div>
 
       <div style="max-width: 58ch;">
