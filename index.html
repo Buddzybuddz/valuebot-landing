@@ -30,77 +30,6 @@
       --accent2: rgba(255,255,255,0.16);
     }
 
-    /* ===== ValueBot Hero ===== */
-    .valuebot{
-      padding: 0;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .valuebot-inner{
-      position: relative;
-      height: 100%;
-      min-height: 420px;
-      border-radius: var(--radius2);
-
-      /* 🔵 Glow subtil */
-      box-shadow:
-      0 0 0 1px rgba(255,255,255,0.08),
-      0 0 60px rgba(80,160,255,0.18);
-    }
-
-    .valuebot img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: contrast(1.05) saturate(1.1);
-    }
-
-    .valuebot img{
-      transition: transform .6s ease, filter .6s ease;
-    }
-
-    .valuebot:hover img{
-      transform: scale(1.02);
-      filter: contrast(1.1) saturate(1.15);
-    }
-
-    /* overlay */
-    .valuebot-overlay{
-      position: absolute;
-      inset: auto 0 0 0;
-      padding: 18px 16px;
-      background: linear-gradient(
-        180deg,
-        rgba(11,13,18,0) 0%,
-        rgba(11,13,18,0.55) 45%,
-        rgba(11,13,18,0.85) 100%
-      );
-      backdrop-filter: blur(2px);
-    }
-
-    .valuebot-overlay h3{
-      margin: 8px 0 6px;
-      font-size: 22px;
-      letter-spacing: 0.4px;
-      color: var(--text);
-    }
-
-    .valuebot-overlay p{
-      margin: 0;
-      font-size: 14px;
-      color: var(--muted);
-      max-width: 38ch;
-    }
-
-    /* mobile */
-    @media (max-width: 980px){
-      .valuebot-inner{
-        min-height: 360px;
-      }
-    }
-
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
     body{
@@ -121,7 +50,8 @@
     /* Top bar */
     .topbar{
       display:flex; align-items:center; justify-content:space-between;
-      gap:16px; padding: 10px 0 26px;
+      gap:16px;
+      padding: 10px 0 14px; /* ✅ plus compact */
     }
     .brand{
       display:flex; align-items:center; gap:10px;
@@ -228,7 +158,7 @@
     }
     .btnPrimary:hover{ background: rgba(255,255,255,0.92); }
 
-    /* Right hero: score preview (base styles reused) */
+    /* Right hero: preview base */
     .preview{
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
@@ -240,12 +170,79 @@
       justify-content:space-between;
       gap: 14px;
     }
-    .preview h3{
-      margin:0;
+
+    /* ===== ValueBot Hero ===== */
+    .valuebot{
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .valuebot-inner{
+      position: relative;
+      height: 100%;
+      min-height: 420px;
+      border-radius: var(--radius2);
+      overflow: hidden; /* ✅ important : arrondi respecté */
+
+      /* 🔵 Glow subtil */
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 0 60px rgba(80,160,255,0.18);
+    }
+
+    .valuebot img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: contrast(1.05) saturate(1.1);
+      transition: transform .6s ease, filter .6s ease; /* ✅ fusionné */
+      will-change: transform;
+    }
+
+    .valuebot:hover img{
+      transform: scale(1.02);
+      filter: contrast(1.1) saturate(1.15);
+    }
+
+    /* overlay */
+    .valuebot-overlay{
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 18px 16px;
+      background: linear-gradient(
+        180deg,
+        rgba(11,13,18,0) 0%,
+        rgba(11,13,18,0.55) 45%,
+        rgba(11,13,18,0.85) 100%
+      );
+      backdrop-filter: blur(2px);
+    }
+
+    .pill{
+      display:inline-flex; align-items:center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 13px;
+      gap: 8px;
+    }
+
+    .valuebot-overlay h3{
+      margin: 8px 0 6px;
+      font-size: 22px;
+      letter-spacing: 0.4px;
+      color: var(--text);
+    }
+
+    .valuebot-overlay p{
+      margin: 0;
       font-size: 14px;
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
-      color: var(--muted2);
+      color: var(--muted);
+      max-width: 38ch;
     }
 
     /* Sections */
@@ -385,6 +382,7 @@
       .list{ grid-template-columns: 1fr; }
       .steps{ grid-template-columns: 1fr 1fr; }
       h1{ font-size: 38px; }
+      .valuebot-inner{ min-height: 360px; }
     }
     @media (max-width: 520px){
       .steps{ grid-template-columns: 1fr; }
