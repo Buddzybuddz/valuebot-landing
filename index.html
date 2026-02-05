@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ValueBot — Analyse sportive objective</title>
-  <meta name="description" content="ValueBot analyse les matchs de football équilibrés et envoie chaque jour une analyse claire par email." />
+  <title>ValueBot — Analyse des matchs indécis</title>
+  <meta name="description" content="ValueBot analyse les matchs de football équilibrés/indécis et envoie chaque jour une analyse claire par email." />
   <meta name="robots" content="index,follow" />
 
   <!-- Open Graph (partage) -->
-  <meta property="og:title" content="ValueBot — Analyse sportive objective" />
+  <meta property="og:title" content="ValueBot — Analyse des matchs indécis" />
   <meta property="og:description" content="Analyse des matchs équilibrés, indicateurs structurés et email quotidien." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://budzybuddz.github.io/valuebot-landing/" />
@@ -16,8 +16,6 @@
   <style>
     :root{
       --bg: #0b0d12;
-      --panel: rgba(255,255,255,0.06);
-      --panel2: rgba(255,255,255,0.08);
       --text: rgba(255,255,255,0.92);
       --muted: rgba(255,255,255,0.72);
       --muted2: rgba(255,255,255,0.60);
@@ -27,7 +25,6 @@
       --radius2: 24px;
       --max: 1040px;
       --accent: #ffffff;
-      --accent2: rgba(255,255,255,0.16);
     }
 
     *{ box-sizing:border-box; }
@@ -47,16 +44,23 @@
     a{ color:inherit; text-decoration:none; }
     .wrap{ max-width: var(--max); margin: 0 auto; padding: 28px 18px 60px; }
 
-    /* Top bar */
+    /* ===== Top bar ===== */
     .topbar{
-      display:flex; align-items:center; justify-content:space-between;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       gap:16px;
       padding: 10px 0 14px;
+      position: relative;
+      z-index: 20;
     }
+
     .brand{
       display:flex; align-items:center; gap:10px;
       font-weight: 750; letter-spacing: 0.3px;
+      flex: 0 0 auto;
     }
+
     .logo{
       width:34px; height:34px; border-radius: 10px;
       border:1px solid var(--border);
@@ -65,32 +69,24 @@
       display:grid; place-items:center;
       font-size: 16px;
     }
-    nav{display:flex;
-        align-items:center;
-        gap:14px; 
-        flex-wrap:nowrap;   /* ✅ interdit le retour à la ligne */
-        white-space:nowrap;/* ✅ empêche la casse du texte */
+
+    .topnav{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap: 10px;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      flex: 1 1 auto;
+      min-width: 0;
     }
+
     .navlink{
       color: var(--muted);
       padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
-    }
-    .navlink.cta {
-      border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.08);
-      font-weight: 700;
-    }
-    
-    .navlink.cta.primary {
-      background: var(--accent);
-      color: #0b0d12;
-      border-color: rgba(255,255,255,0.4);
-    }
-    
-    .navlink.cta.primary:hover {
-      background: rgba(255,255,255,0.92);
+      font-size: 14px;
     }
     .navlink:hover{
       border-color: var(--border);
@@ -98,9 +94,25 @@
       color: var(--text);
     }
 
-    /* ===== Burger menu (mobile) ===== */
+    .navCta{
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-weight: 800;
+      padding: 10px 12px;
+      border-radius: 12px;
+    }
+
+    .navCta.primary{
+      background: var(--accent);
+      color: #0b0d12;
+      border-color: rgba(255,255,255,0.40);
+    }
+    .navCta.primary:hover{ background: rgba(255,255,255,0.92); }
+
+    /* Burger button (mobile) */
     .burger{
-      display:none; /* visible seulement en mobile */
+      display:none;
       width: 42px;
       height: 42px;
       border-radius: 12px;
@@ -112,6 +124,7 @@
       justify-content:center;
       gap: 5px;
       padding: 0;
+      flex: 0 0 auto;
     }
     .burger span{
       display:block;
@@ -121,23 +134,7 @@
       border-radius: 999px;
       transition: transform .2s ease, opacity .2s ease;
     }
-    
-    .topnav{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      flex-wrap:nowrap;
-      white-space:nowrap;
-    }
-    
-    .navlink.navCta{
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.06);
-      padding: 10px 12px;
-      border-radius: 12px;
-      color: var(--text);
-    }
-    
+
     /* Backdrop */
     .navBackdrop{
       position: fixed;
@@ -145,67 +142,10 @@
       background: rgba(0,0,0,0.55);
       backdrop-filter: blur(2px);
       z-index: 40;
+      display:none;
     }
-    
-    /* ===== Mobile drawer ===== */
-    @media (max-width: 980px){
-      .burger{
-        display:inline-flex;
-      }
-    
-      /* le nav devient un drawer */
-      .topnav{
-        position: fixed;
-        top: 16px;
-        right: 16px;
-        left: 16px;
-        z-index: 50;
-    
-        display:flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    
-        padding: 14px;
-        border-radius: 18px;
-        border: 1px solid rgba(255,255,255,0.14);
-        background: rgba(15,18,26,0.95);
-        box-shadow: 0 18px 60px rgba(0,0,0,0.55);
-    
-        transform: translateY(-10px);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity .18s ease, transform .18s ease;
-      }
-    
-      .topnav .navlink{
-        display:flex;
-        justify-content:center;
-        padding: 12px 12px;
-        border-radius: 14px;
-        border: 1px solid rgba(255,255,255,0.10);
-        background: rgba(255,255,255,0.04);
-      }
-    
-      /* état ouvert */
-      body.nav-open .topnav{
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
-      }
-    
-      body.nav-open .navBackdrop{
-        display:block;
-      }
-    }
-    
-    /* Animation burger -> croix */
-    body.nav-open .burger span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
-    body.nav-open .burger span:nth-child(2){ opacity: 0; }
-    body.nav-open .burger span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
 
-    
-    /* Sections */
+    /* ===== Sections base ===== */
     section{ margin-top: 26px; }
     .sectionCard{
       border:1px solid var(--border);
@@ -213,6 +153,7 @@
       border-radius: var(--radius2);
       padding: 22px 20px;
     }
+
     .kicker{
       color: var(--muted2);
       font-size: 13px;
@@ -220,6 +161,7 @@
       letter-spacing: 0.6px;
       margin: 0 0 10px;
     }
+
     h1{
       margin:0 0 10px;
       font-size: 44px;
@@ -231,6 +173,7 @@
       font-size: 26px;
       letter-spacing: -0.3px;
     }
+
     .subtitle{
       margin: 0 0 18px;
       color: var(--muted);
@@ -286,7 +229,7 @@
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.06);
       color: var(--text);
-      font-weight: 700;
+      font-weight: 800;
       cursor:pointer;
       transition: transform .08s ease, background .15s ease, border-color .15s ease;
     }
@@ -427,16 +370,8 @@
       background: rgba(255,255,255,0.04);
       border-radius: 16px;
       padding: 14px 12px;
-      color: var(--muted Remember: 0.72 );
-      min-height: 132px;
-    }
-    /* Fix typo above: cannot put "Remember:"; keep valid CSS */
-  </style>
-
-  <style>
-    /* Process (fixed CSS) */
-    .step{
       color: var(--muted);
+      min-height: 132px;
     }
     .step .n{
       width: 28px; height: 28px;
@@ -445,10 +380,10 @@
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
       color: var(--text);
-      font-weight: 800;
+      font-weight: 900;
       margin-bottom: 10px;
     }
-    .step strong{ color: var(--text); font-weight: 680; display:block; margin-bottom:6px; }
+    .step strong{ color: var(--text); font-weight: 800; display:block; margin-bottom:6px; }
 
     .cycleNote{
       display:flex;
@@ -463,7 +398,7 @@
       color: var(--muted);
     }
     .cycleNote .left{ display:flex; flex-direction:column; gap:4px; }
-    .cycleNote .left .t{ color: var(--text); font-weight: 750; }
+    .cycleNote .left .t{ color: var(--text); font-weight: 900; }
     .cycleNote .loop{
       display:inline-flex;
       align-items:center;
@@ -508,7 +443,7 @@
     }
     .footerLinks a:hover{ color: var(--text); border-bottom-color: rgba(255,255,255,0.35); }
 
-    /* Responsive */
+    /* ===== Responsive + Burger behavior ===== */
     @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
       .bullets{ grid-template-columns: 1fr; }
@@ -517,81 +452,133 @@
       .steps{ grid-template-columns: 1fr; }
       h1{ font-size: 38px; }
       .valuebot-inner{ min-height: 360px; }
+
+      /* Desktop nav hidden -> burger visible */
+      .burger{ display:inline-flex; }
+      .topnav{
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        left: 16px;
+        z-index: 50;
+
+        display:flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+
+        padding: 14px;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(15,18,26,0.95);
+        box-shadow: 0 18px 60px rgba(0,0,0,0.55);
+
+        transform: translateY(-10px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .18s ease, transform .18s ease;
+      }
+      .topnav .navlink{
+        display:flex;
+        justify-content:center;
+        padding: 12px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.04);
+      }
+      .topnav .navCta{
+        border-color: rgba(255,255,255,0.18);
+        background: rgba(255,255,255,0.06);
+      }
+      .topnav .navCta.primary{
+        background: var(--accent);
+        color: #0b0d12;
+      }
+
+      body.nav-open .topnav{
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      body.nav-open .navBackdrop{ display:block; }
     }
+
     @media (max-width: 520px){
       h1{ font-size: 34px; }
     }
+
+    /* Burger -> X */
+    body.nav-open .burger span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+    body.nav-open .burger span:nth-child(2){ opacity: 0; }
+    body.nav-open .burger span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
   </style>
 </head>
 
 <body>
   <div class="wrap">
+
     <!-- Top bar -->
     <div class="topbar">
       <div class="brand">
         <div class="logo">VB</div>
         <div>ValueBot</div>
       </div>
-      <nav>
-        <div class="topbar">
-          <div class="brand">
-            <div class="logo">VB</div>
-            <div>ValueBot</div>
-          </div>
-        
-          <!-- Bouton burger (visible seulement en mobile via CSS) -->
-          <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="topnav">
-            <span></span><span></span><span></span>
-          </button>
-        
-          <!-- Nav desktop + drawer mobile -->
-          <nav class="topnav" id="topnav">
-            <a class="navlink" href="#cestquoi">C'est quoi ?</a>
-            <a class="navlink" href="#casert">Ça sert à quoi ?</a>
-            <a class="navlink" href="#comment">Comment ça marche ?</a>
-            <a class="navlink" href="#pourqui">Pour qui ?</a>
-        
-            <!-- CTA header (garde tes liens Stripe) -->
-            <a class="navlink navCta" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener>Recevoir l’email</a>
-            <a class="navlink navCta" href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener">Gérer mon abonnement</a>
-          </nav>
-        </div>
-        
-        <!-- Fond sombre cliquable (mobile) -->
-        <div class="navBackdrop" id="navBackdrop" hidden></div>
+
+      <!-- Burger (mobile) -->
+      <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="topnav">
+        <span></span><span></span><span></span>
+      </button>
+
+      <!-- Nav (desktop) + drawer (mobile) -->
+      <nav class="topnav" id="topnav" aria-label="Navigation principale">
+        <a class="navlink" href="#cestquoi">C’est quoi ?</a>
+        <a class="navlink" href="#casert">Ça sert à quoi ?</a>
+        <a class="navlink" href="#comment">Comment ça marche ?</a>
+        <a class="navlink" href="#pourqui">Pour qui ?</a>
+
+        <!-- CTAs -->
+        <a class="navlink navCta primary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">
+          Recevoir l’email
+        </a>
+        <a class="navlink navCta" href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener">
+          Gérer mon abonnement
+        </a>
       </nav>
     </div>
 
-    <!-- Section 1 : ValueBot C'est quoi? -->
+    <!-- Backdrop (mobile) -->
+    <div class="navBackdrop" id="navBackdrop" hidden></div>
+
+    <!-- Section 1 : ValueBot C'est quoi ? -->
     <section class="hero" id="cestquoi">
       <div class="heroCard">
         <h1>ValueBot, c’est quoi ?</h1>
         <p class="subtitle">
-          ValueBot analyse les matchs de football <strong>équilibrés</strong> ou <strong>indécis</strong> et produit une
-          <strong>analyse claire</strong> envoyée par mail <strong>chaque jour</strong>.
+          Analyse des matchs de football <strong>équilibrés</strong> ou <strong>indécis</strong>.<br/>
+          Création, analyse et comparaison d’indicateurs sportifs à partir de multiples données.<br/>
+          Envoi d’une <strong>analyse claire par mail</strong> chaque jour.
         </p>
 
         <div class="ctaRow">
-          <!-- Remplace href par ton lien Stripe Checkout -->
-          <a class="btn btnPrimary" href="#email" aria-label="Recevoir l'email quotidien">
+          <a class="btn btnPrimary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener" aria-label="Recevoir l'email quotidien via Stripe">
             Recevoir l’email quotidien <span aria-hidden="true">→</span>
           </a>
-          <a class="btn" href="#process" aria-label="Voir comment fonctionne ValueBot">
+          <a class="btn" href="#comment" aria-label="Voir comment ça marche">
             Voir comment ça marche
           </a>
         </div>
 
         <div class="bullets" aria-label="Ce que fait ValueBot">
-          <div class="bullet"><span class="emoji">⚖️</span><div><strong>Matchs équilibrés</strong><br/>Focus sur les rencontres difficiles à lire.</div></div>
-          <div class="bullet"><span class="emoji">🧩</span><div><strong>Indicateurs structurés</strong><br/>Création, analyse et comparaison d’indicateurs sportifs.</div></div>
-          <div class="bullet"><span class="emoji">📝</span><div><strong>Analyse écrite</strong><br/>Une lecture argumentée, simple à exploiter.</div></div>
-          <div class="bullet"><span class="emoji">📩</span><div><strong>email quotidien</strong><br/>Envoi automatique chaque jour.</div></div>
+          <div class="bullet"><span class="emoji">⚖️</span><div><strong>Matchs indécis</strong><br/>Focus sur les rencontres difficiles à lire.</div></div>
+          <div class="bullet"><span class="emoji">🧩</span><div><strong>Indicateurs structurés</strong><br/>Synthèse claire de données hétérogènes.</div></div>
+          <div class="bullet"><span class="emoji">📝</span><div><strong>Analyse écrite</strong><br/>Lecture argumentée, simple à exploiter.</div></div>
+          <div class="bullet"><span class="emoji">📩</span><div><strong>Email quotidien</strong><br/>Envoi automatique chaque jour.</div></div>
         </div>
       </div>
 
-      <aside class="preview valuebot" aria-label="ValueBot — IA d'analyse sportive">
+      <aside class="preview valuebot" aria-label="ValueBot — visuel">
         <div class="valuebot-inner">
-          <img src="assets/valuebot.png" alt="ValueBot, intelligence artificielle d'analyse sportive" loading="eager" />
+          <img src="assets/valuebot.png" alt="ValueBot" loading="eager" />
           <div class="valuebot-overlay">
             <div class="pill">IA • Analyse • Indicateurs</div>
             <h3>ValueBot</h3>
@@ -604,74 +591,41 @@
       </aside>
     </section>
 
-    <!-- Section 2 : ValueBot  Ca sert a quoi? -->
-    <section id="asert" class="sectionCard">
-      <p class="kicker">2 — À quoi ça sert ?</p>
-      <h2>Gagner du temps et repérer les erreurs de cotation</h2>
+    <!-- Section 2 : ValueBot Ça sert à quoi ? -->
+    <section id="casert" class="sectionCard">
+      <p class="kicker">2 — Ça sert à quoi ?</p>
+      <h2>Gagner du temps et repérer des erreurs de cotation</h2>
       <p class="p">
-        ValueBot aide les analystes footballistiques à gagner du temps en identifiant des matchs où la lecture rationnelle des données
-        peut révéler des <strong>erreurs de cotation</strong> potentielles.
+        ValueBot sert à faire gagner du temps aux analystes footballistiques afin de détecter
+        d’éventuelles <strong>erreurs de cotation</strong> sur des matchs indécis.
+        Le volume très élevé des matchs et la densité des données à traiter rendent une analyse pertinente
+        <strong>longue et complexe</strong>.
       </p>
 
       <ul class="list">
-        <li class="li">
-          <strong>Volume très élevé de matchs</strong><br/>
-          Chaque jour, il y a trop de rencontres pour analyser tout en profondeur.
-        </li>
-        <li class="li">
-          <strong>Densité de données</strong><br/>
-          Forme, contexte, absences, historique… tout doit être croisé.
-        </li>
-        <li class="li">
-          <strong>Analyse longue et complexe</strong><br/>
-          Une vraie analyse prend du temps, surtout sur les matchs équilibrés.
-        </li>
-        <li class="li">
-          <strong>Objectif : prioriser</strong><br/>
-          Mettre l’attention sur les matchs où les écarts sont les plus significatifs.
-        </li>
+        <li class="li"><strong>Beaucoup trop de matchs</strong><br/>Impossible d’analyser chaque rencontre en profondeur.</li>
+        <li class="li"><strong>Beaucoup de données</strong><br/>Forme, contexte, absences, historique… tout doit être croisé.</li>
+        <li class="li"><strong>Analyse chronophage</strong><br/>Une analyse rigoureuse prend du temps, surtout sur les matchs équilibrés.</li>
+        <li class="li"><strong>Priorisation intelligente</strong><br/>Focus sur les matchs où l’analyse met en évidence des écarts.</li>
       </ul>
     </section>
 
-    <!-- Section 3 : ValueBot  Comment ca marche? -->
-    <section id="process" class="sectionCard">
+    <!-- Section 3 : ValueBot Comment ça marche ? -->
+    <section id="comment" class="sectionCard">
       <p class="kicker">3 — Comment ça marche ?</p>
       <h2>Un processus cyclique relancé chaque jour</h2>
       <p class="p">
-        ValueBot reprend une logique d’analyse humaine, intégrée dans un processus automatisé et <strong>répété quotidiennement</strong>.
+        ValueBot intègre une logique d’analyse humaine dans un processus automatisé
+        <strong>qui recommence quotidiennement</strong>.
       </p>
 
       <div class="steps" aria-label="Étapes du processus">
-        <div class="step">
-          <div class="n">1</div>
-          <strong>Récupération des matchs du jour</strong>
-          Identification des rencontres programmées.
-        </div>
-        <div class="step">
-          <div class="n">2</div>
-          <strong>Sélection des matchs indécis</strong>
-          Focus sur les matchs équilibrés / difficiles à lire.
-        </div>
-        <div class="step">
-          <div class="n">3</div>
-          <strong>Collecte des données des équipes</strong>
-          Agrégation des données pertinentes par équipe.
-        </div>
-        <div class="step">
-          <div class="n">4</div>
-          <strong>Analyse par catégorie</strong>
-          Forme récente, forme saison, H2H, absences, fatigue, home/away, niveau, derby.
-        </div>
-        <div class="step">
-          <div class="n">5</div>
-          <strong>Comparaison des équipes</strong>
-          Mise en perspective pour identifier les déséquilibres.
-        </div>
-        <div class="step">
-          <div class="n">6</div>
-          <strong>Sélection selon les écarts</strong>
-          Priorisation des matchs où l’analyse révèle les écarts les plus marqués.
-        </div>
+        <div class="step"><div class="n">1</div><strong>Récupération des matchs du jour</strong>Identification des rencontres programmées.</div>
+        <div class="step"><div class="n">2</div><strong>Sélection des matchs indécis</strong>Focus sur les matchs équilibrés / difficiles à lire.</div>
+        <div class="step"><div class="n">3</div><strong>Collecte des données des équipes</strong>Agrégation des données pertinentes par équipe.</div>
+        <div class="step"><div class="n">4</div><strong>Analyse & évaluation par catégorie</strong>Forme récente, saison, H2H, absences, fatigue, home/away, niveau, derby.</div>
+        <div class="step"><div class="n">5</div><strong>Comparaison des équipes</strong>Mise en perspective pour identifier les déséquilibres.</div>
+        <div class="step"><div class="n">6</div><strong>Sélection selon les écarts</strong>Priorisation des matchs où l’analyse révèle les écarts les plus marqués.</div>
       </div>
 
       <div class="cycleNote" aria-label="Cycle quotidien">
@@ -683,8 +637,8 @@
       </div>
     </section>
 
-    <!-- Section 4 : ValueBot  c'est Pour qui ? -->
-    <section id="audience" class="sectionCard">
+    <!-- Section 4 : Pour qui ? -->
+    <section id="pourqui" class="sectionCard">
       <p class="kicker">4 — Pour qui ?</p>
       <h2>Pour les profils qui aiment analyser rationnellement</h2>
 
@@ -699,28 +653,25 @@
       </div>
     </section>
 
-    <!-- Section 5 : Comment recevoir l'email quotidien ? -->
+    <!-- Section 5 : Recevoir l'email -->
     <section id="email" class="sectionCard">
       <p class="kicker">5 — Recevoir l’email quotidien</p>
-      <h2>Accéder à l’email chaque jour</h2>
+      <h2>Recevoir l’analyse chaque jour</h2>
       <p class="p">
-        Deux actions : s’abonner pour recevoir l’email quotidien, puis gérer l’abonnement (pause / résiliation) via Stripe.
+        Abonne-toi pour recevoir l’email quotidien, puis gère ton abonnement (pause / résiliation) via Stripe.
       </p>
 
       <div class="ctaRow">
-        <!-- 🔁 Remplace par ton URL Stripe Checkout -->
-        <a class="btn btnPrimary" href="https://example.com/stripe-checkout" aria-label="S'abonner via Stripe">
+        <a class="btn btnPrimary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener" aria-label="S'abonner via Stripe">
           S’abonner (Stripe) <span aria-hidden="true">→</span>
         </a>
-
-        <!-- 🔁 Remplace par ton URL Stripe Customer Portal -->
-        <a class="btn" href="https://example.com/stripe-portal" aria-label="Gérer mon abonnement via Stripe">
+        <a class="btn" href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener" aria-label="Gérer mon abonnement via Stripe">
           Gérer mon abonnement <span aria-hidden="true">→</span>
         </a>
       </div>
 
       <div class="note">
-        <strong>Important :</strong> remplace les liens Stripe ci-dessus par tes URLs réelles (Checkout + Customer Portal).
+        <strong>Important :</strong> remplace <em>TON-LIEN-STRIPE-CHECKOUT</em> et <em>TON-LIEN-STRIPE-PORTAL</em> par tes URLs Stripe réelles.
       </div>
     </section>
 
@@ -733,7 +684,7 @@
 
       <div class="footerLinks">
         <a href="#cestquoi">C’est quoi ?</a>
-        <a href="#process">Méthode</a>
+        <a href="#comment">Comment ça marche ?</a>
         <a href="#email">Recevoir l’email</a>
       </div>
 
@@ -741,39 +692,41 @@
         Disclaimer : Les analyses proposées sont fournies à titre informatif et ne constituent pas un conseil financier ou une incitation au jeu.
       </div>
     </footer>
+
   </div>
+
   <script>
     (function () {
       const burgerBtn = document.getElementById("burgerBtn");
       const backdrop = document.getElementById("navBackdrop");
       const nav = document.getElementById("topnav");
-  
+
       function openNav() {
         document.body.classList.add("nav-open");
         burgerBtn.setAttribute("aria-expanded", "true");
         backdrop.hidden = false;
       }
-  
+
       function closeNav() {
         document.body.classList.remove("nav-open");
         burgerBtn.setAttribute("aria-expanded", "false");
         backdrop.hidden = true;
       }
-  
+
       function toggleNav() {
         if (document.body.classList.contains("nav-open")) closeNav();
         else openNav();
       }
-  
+
       burgerBtn.addEventListener("click", toggleNav);
       backdrop.addEventListener("click", closeNav);
-  
-      // Fermer au clic sur un lien (pratique sur mobile)
+
+      // Fermer au clic sur un lien (utile en mobile)
       nav.addEventListener("click", (e) => {
         const a = e.target.closest("a");
         if (a) closeNav();
       });
-  
+
       // Fermer avec ESC
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeNav();
