@@ -4,12 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ValueBot — Analyse sportive objective</title>
-  <meta name="description" content="ValueBot transforme des milliers de données sportives en scores de performance clairs pour vous aider à prendre de meilleures décisions." />
+  <meta name="description" content="ValueBot analyse les matchs de football équilibrés et envoie chaque jour une analyse claire par e-mail." />
   <meta name="robots" content="index,follow" />
 
   <!-- Open Graph (partage) -->
   <meta property="og:title" content="ValueBot — Analyse sportive objective" />
-  <meta property="og:description" content="Des indicateurs clairs pour analyser les matchs de football de manière rationnelle." />
+  <meta property="og:description" content="Analyse des matchs équilibrés, indicateurs structurés et e-mail quotidien." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://budzybuddz.github.io/valuebot-landing/" />
 
@@ -51,7 +51,7 @@
     .topbar{
       display:flex; align-items:center; justify-content:space-between;
       gap:16px;
-      padding: 10px 0 14px; /* ✅ plus compact */
+      padding: 10px 0 14px;
     }
     .brand{
       display:flex; align-items:center; gap:10px;
@@ -78,29 +78,20 @@
       color: var(--text);
     }
 
-    /* Hero */
-    .hero{
-      padding: 22px 0 34px;
-      display:grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 18px;
-      align-items: stretch;
-    }
-    .heroCard{
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+    /* Sections */
+    section{ margin-top: 26px; }
+    .sectionCard{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.03);
       border-radius: var(--radius2);
-      box-shadow: var(--shadow);
-      padding: 26px 22px;
-      overflow:hidden;
-      position:relative;
+      padding: 22px 20px;
     }
-    .heroCard::before{
-      content:"";
-      position:absolute;
-      inset:-1px;
-      background: radial-gradient(800px 260px at 25% 0%, rgba(255,255,255,0.14), transparent 55%);
-      pointer-events:none;
+    .kicker{
+      color: var(--muted2);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin: 0 0 10px;
     }
     h1{
       margin:0 0 10px;
@@ -108,30 +99,54 @@
       line-height: 1.08;
       letter-spacing: -0.8px;
     }
+    h2{
+      margin: 0 0 10px;
+      font-size: 26px;
+      letter-spacing: -0.3px;
+    }
     .subtitle{
       margin: 0 0 18px;
       color: var(--muted);
       font-size: 18px;
-      max-width: 62ch;
+      max-width: 70ch;
+    }
+    .p{ margin: 0 0 10px; color: var(--muted); }
+
+    .twoCols{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
     }
 
-    .bullets{
+    .list{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 16px;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style:none;
     }
-    .bullet{
+    .li{
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
       border-radius: 14px;
       padding: 12px 12px;
       color: var(--muted);
-      display:flex; gap:10px; align-items:flex-start;
     }
-    .bullet .emoji{ font-size: 18px; line-height:1; margin-top:2px; }
-    .bullet strong{ color: var(--text); font-weight: 650; }
+    .li strong{ color: var(--text); font-weight: 650; }
 
+    .note{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+    .note strong{ color: var(--text); }
+
+    /* Buttons */
     .ctaRow{
       display:flex; gap: 12px; align-items:center; flex-wrap:wrap;
       margin-top: 18px;
@@ -158,7 +173,49 @@
     }
     .btnPrimary:hover{ background: rgba(255,255,255,0.92); }
 
-    /* Right hero: preview base */
+    /* Hero */
+    .hero{
+      padding: 22px 0 0;
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .heroCard{
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      padding: 26px 22px;
+      overflow:hidden;
+      position:relative;
+    }
+    .heroCard::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(800px 260px at 25% 0%, rgba(255,255,255,0.14), transparent 55%);
+      pointer-events:none;
+    }
+
+    .bullets{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .bullet{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      border-radius: 14px;
+      padding: 12px 12px;
+      color: var(--muted);
+      display:flex; gap:10px; align-items:flex-start;
+    }
+    .bullet .emoji{ font-size: 18px; line-height:1; margin-top:2px; }
+    .bullet strong{ color: var(--text); font-weight: 650; }
+
+    /* ValueBot card */
     .preview{
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
@@ -171,46 +228,34 @@
       gap: 14px;
     }
 
-    /* ===== ValueBot Hero ===== */
-    .valuebot{
-      padding: 0;
-      overflow: hidden;
-      position: relative;
-    }
-
+    .valuebot{ padding:0; overflow:hidden; position:relative; }
     .valuebot-inner{
       position: relative;
       height: 100%;
       min-height: 420px;
       border-radius: var(--radius2);
-      overflow: hidden; /* ✅ important : arrondi respecté */
-
-      /* 🔵 Glow subtil */
+      overflow: hidden;
       box-shadow:
         0 0 0 1px rgba(255,255,255,0.14),
         0 0 22px rgba(80,160,255,0.28),
         0 0 70px rgba(80,160,255,0.18);
     }
-
     .valuebot img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
       filter: contrast(1.05) saturate(1.1);
-      transition: transform .6s ease, filter .6s ease; /* ✅ fusionné */
+      transition: transform .6s ease, filter .6s ease;
       will-change: transform;
     }
-
     .valuebot:hover img{
       transform: scale(1.02);
       filter: contrast(1.1) saturate(1.15);
     }
-
-    /* overlay */
     .valuebot-overlay{
-      position: absolute;
-      inset: auto 0 0 0;
+      position:absolute;
+      inset:auto 0 0 0;
       padding: 18px 16px;
       background: linear-gradient(
         180deg,
@@ -220,7 +265,6 @@
       );
       backdrop-filter: blur(2px);
     }
-
     .pill{
       display:inline-flex; align-items:center;
       padding: 6px 10px;
@@ -231,14 +275,12 @@
       font-size: 13px;
       gap: 8px;
     }
-
     .valuebot-overlay h3{
       margin: 8px 0 6px;
       font-size: 22px;
       letter-spacing: 0.4px;
       color: var(--text);
     }
-
     .valuebot-overlay p{
       margin: 0;
       font-size: 14px;
@@ -246,63 +288,10 @@
       max-width: 38ch;
     }
 
-    /* Sections */
-    section{ margin-top: 26px; }
-    .sectionCard{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      border-radius: var(--radius2);
-      padding: 22px 20px;
-    }
-    .kicker{
-      color: var(--muted2);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin: 0 0 10px;
-    }
-    h2{
-      margin: 0 0 10px;
-      font-size: 26px;
-      letter-spacing: -0.3px;
-    }
-    .p{ margin: 0 0 10px; color: var(--muted); }
-    .list{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: 12px 0 0;
-      padding: 0;
-      list-style:none;
-    }
-    .li{
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      border-radius: 14px;
-      padding: 12px 12px;
-      color: var(--muted);
-    }
-    .li strong{ color: var(--text); font-weight: 650; }
-    .twoCols{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 12px;
-    }
-    .note{
-      margin-top: 12px;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.03);
-      color: var(--muted);
-    }
-    .note strong{ color: var(--text); }
-
     /* Process */
     .steps{
       display:grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
       margin-top: 12px;
     }
@@ -311,8 +300,16 @@
       background: rgba(255,255,255,0.04);
       border-radius: 16px;
       padding: 14px 12px;
+      color: var(--muted Remember: 0.72 );
+      min-height: 132px;
+    }
+    /* Fix typo above: cannot put "Remember:"; keep valid CSS */
+  </style>
+
+  <style>
+    /* Process (fixed CSS) */
+    .step{
       color: var(--muted);
-      min-height: 112px;
     }
     .step .n{
       width: 28px; height: 28px;
@@ -326,7 +323,33 @@
     }
     .step strong{ color: var(--text); font-weight: 680; display:block; margin-bottom:6px; }
 
-    /* Audience */
+    .cycleNote{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+    .cycleNote .left{ display:flex; flex-direction:column; gap:4px; }
+    .cycleNote .left .t{ color: var(--text); font-weight: 750; }
+    .cycleNote .loop{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 34px; height: 34px;
+      border-radius: 12px;
+      border: 1px solid rgba(80,160,255,0.35);
+      background: rgba(80,160,255,0.10);
+      color: rgba(200,230,255,0.95);
+      font-weight: 900;
+    }
+
+    /* Audience badges */
     .badgeRow{ display:flex; flex-wrap:wrap; gap: 8px; margin-top: 10px; }
     .badge{
       display:inline-flex; align-items:center; gap:8px;
@@ -337,23 +360,6 @@
       color: var(--muted);
       font-size: 13px;
     }
-
-    /* Final CTA */
-    .ctaFinal{
-      display:flex; align-items:center; justify-content:space-between;
-      gap: 14px; flex-wrap:wrap;
-      margin-top: 16px;
-      padding: 14px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
-    }
-    .ctaFinal .text{
-      display:flex; flex-direction:column; gap: 4px;
-      max-width: 62ch;
-    }
-    .ctaFinal .text .t{ font-weight: 800; font-size: 16px; }
-    .ctaFinal .text .s{ color: var(--muted); font-size: 14px; }
 
     /* Footer */
     footer{
@@ -381,12 +387,11 @@
       .bullets{ grid-template-columns: 1fr; }
       .twoCols{ grid-template-columns: 1fr; }
       .list{ grid-template-columns: 1fr; }
-      .steps{ grid-template-columns: 1fr 1fr; }
+      .steps{ grid-template-columns: 1fr; }
       h1{ font-size: 38px; }
       .valuebot-inner{ min-height: 360px; }
     }
     @media (max-width: 520px){
-      .steps{ grid-template-columns: 1fr; }
       h1{ font-size: 34px; }
     }
   </style>
@@ -401,268 +406,177 @@
         <div>ValueBot</div>
       </div>
       <nav>
-        <a class="navlink" href="#realite">Réalité</a>
-        <a class="navlink" href="#solution">Solution</a>
-        <a class="navlink" href="#process">Méthode</a>
-        <a class="navlink" href="#scores">Scores</a>
+        <a class="navlink" href="#cestquoi">C’est quoi ?</a>
+        <a class="navlink" href="#asert">Ça sert à quoi ?</a>
+        <a class="navlink" href="#process">Comment ça marche ?</a>
         <a class="navlink" href="#audience">Pour qui ?</a>
+        <a class="navlink" href="#email">Recevoir l’e-mail</a>
       </nav>
     </div>
 
-    <!-- 1) HERO -->
-    <section class="hero" id="top">
+    <!-- Section 1 : ValueBot C'est quoi? -->
+    <section class="hero" id="cestquoi">
       <div class="heroCard">
-        <h1>Quand un match semble équilibré, l’analyse fait la différence</h1>
+        <h1>ValueBot, c’est quoi ?</h1>
         <p class="subtitle">
-          Grâce à l’analyse de multiples indicateurs sportifs, ValueBot transforme des volumes 
-          complexes de données en une lecture structurée et argumentée des rencontres les plus équilibrées.
+          ValueBot analyse les matchs de football <strong>équilibrés</strong> ou <strong>indécis</strong> et produit une
+          <strong>analyse claire</strong> envoyée par e-mail <strong>chaque jour</strong>.
         </p>
 
         <div class="ctaRow">
-          <a class="btn btnPrimary" href="#analyses" aria-label="Découvrir l'analyse du jour">
-            Découvrir l’analyse du jour <span aria-hidden="true">→</span>
+          <!-- Remplace href par ton lien Stripe Checkout -->
+          <a class="btn btnPrimary" href="#email" aria-label="Recevoir l'e-mail quotidien">
+            Recevoir l’e-mail quotidien <span aria-hidden="true">→</span>
           </a>
-          <a class="btn" href="#process" aria-label="Voir comment fonctionne l'analyse">
-            Voir la méthodologie
+          <a class="btn" href="#process" aria-label="Voir comment fonctionne ValueBot">
+            Voir comment ça marche
           </a>
         </div>
 
-        <div class="bullets" aria-label="Points clés">
-          <div class="bullet"><span class="emoji">📊</span><div><strong>Analyse multi-facteurs automatisée</strong><br/>Forme, disponibilité, historique, récupération…</div></div>
-          <div class="bullet"><span class="emoji">🤖</span><div><strong>Modèles statistiques avancés</strong><br/>Approche structurée et reproductible.</div></div>
-          <div class="bullet"><span class="emoji">🧠</span><div><strong>Lecture simple des déséquilibres de match</strong><br/>Des analyses synthétiques claires.</div></div>
-          <div class="bullet"><span class="emoji">🔍</span><div><strong>Méthodologie transparente</strong><br/>Indicateurs explicables, logiques claires.</div></div>
+        <div class="bullets" aria-label="Ce que fait ValueBot">
+          <div class="bullet"><span class="emoji">⚖️</span><div><strong>Matchs équilibrés</strong><br/>Focus sur les rencontres difficiles à lire.</div></div>
+          <div class="bullet"><span class="emoji">🧩</span><div><strong>Indicateurs structurés</strong><br/>Création, analyse et comparaison d’indicateurs sportifs.</div></div>
+          <div class="bullet"><span class="emoji">📝</span><div><strong>Analyse écrite</strong><br/>Une lecture argumentée, simple à exploiter.</div></div>
+          <div class="bullet"><span class="emoji">📩</span><div><strong>E-mail quotidien</strong><br/>Envoi automatique chaque jour.</div></div>
         </div>
       </div>
 
       <aside class="preview valuebot" aria-label="ValueBot — IA d'analyse sportive">
         <div class="valuebot-inner">
-          <img
-            src="assets/valuebot.png"
-            alt="ValueBot, intelligence artificielle d'analyse sportive"
-            loading="eager"
-          />
+          <img src="assets/valuebot.png" alt="ValueBot, intelligence artificielle d'analyse sportive" loading="eager" />
           <div class="valuebot-overlay">
-            <div class="pill">IA • Analyse • Indicateurs • Beta</div>
+            <div class="pill">IA • Analyse • Indicateurs</div>
             <h3>ValueBot</h3>
             <p>
-              Moteur d’analyse conçu pour détecter
-              <strong>les écarts de performance significatifs</strong>
-              à partir de données sportives objectives.
+              Moteur d’analyse conçu pour comparer les équipes et mettre en évidence
+              <strong>les déséquilibres pertinents</strong> sur les matchs les plus indécis.
             </p>
           </div>
         </div>
       </aside>
     </section>
 
-    <!-- 2) RÉALITÉ TERRAIN -->
-    <section id="realite" class="sectionCard">
-      <p class="kicker">2 — La réalité terrain</p>
-      <h2>Une analyse sportive devenue complexe à grande échelle</h2>
+    <!-- Section 2 : ValueBot  Ca sert a quoi? -->
+    <section id="asert" class="sectionCard">
+      <p class="kicker">2 — À quoi ça sert ?</p>
+      <h2>Gagner du temps et repérer les erreurs de cotation</h2>
       <p class="p">
-        Avec le volume de matchs et la quantité de données disponibles, analyser une rencontre de manière rigoureuse devient un véritable défi :
+        ValueBot aide les analystes footballistiques à gagner du temps en identifiant des matchs où la lecture rationnelle des données
+        peut révéler des <strong>erreurs de cotation</strong> potentielles.
       </p>
-    
+
       <ul class="list">
         <li class="li">
-          <strong>Un volume élevé de matchs à étudier</strong><br/>
-          Chaque journée propose de nombreuses rencontres, difficiles à analyser en profondeur.
+          <strong>Volume très élevé de matchs</strong><br/>
+          Chaque jour, il y a trop de rencontres pour analyser tout en profondeur.
         </li>
-    
         <li class="li">
-          <strong>Une analyse chronophage</strong><br/>
-          Croiser les informations pertinentes et vérifier le contexte prend du temps.
+          <strong>Densité de données</strong><br/>
+          Forme, contexte, absences, historique… tout doit être croisé.
         </li>
-    
         <li class="li">
-          <strong>Des données multiples et hétérogènes</strong><br/>
-          Statistiques, dynamique récente, contexte… les sources sont nombreuses et variées.
+          <strong>Analyse longue et complexe</strong><br/>
+          Une vraie analyse prend du temps, surtout sur les matchs équilibrés.
         </li>
-    
         <li class="li">
-          <strong>Une complexité croissante</strong><br/>
-          De nombreux facteurs doivent être pris en compte simultanément pour garder une lecture fiable.
-        </li>
-    
-        <li class="li">
-          <strong>Une synthèse difficile à produire</strong><br/>
-          Sans structuration, l’information reste dispersée et peu exploitable.
-        </li>
-    
-        <li class="li">
-          <strong>Comparer deux équipes reste délicat</strong><br/>
-          Sans cadre commun, il est difficile d’évaluer clairement les écarts de performance.
+          <strong>Objectif : prioriser</strong><br/>
+          Mettre l’attention sur les matchs où les écarts sont les plus significatifs.
         </li>
       </ul>
     </section>
 
-
-    <!-- 3) SOLUTION -->
-    <section id="solution" class="sectionCard">
-      <p class="kicker">3 — La solution</p>
-      <h2>Une analyse écrite claire, envoyée chaque jour</h2>
-      <p class="p">
-        ValueBot centralise et structure les données clés d’un match pour produire une
-        <strong>analyse écrite synthétique</strong> qui met en évidence
-        <strong>l’équipe ayant l’avantage</strong>, puis l’envoie <strong>par e-mail chaque jour</strong>.
-      </p>
-    
-      <div class="twoCols">
-        <div>
-          <h3 style="margin:0 0 10px; font-size:16px; color:var(--text);">Éléments analysés</h3>
-          <ul class="list" style="grid-template-columns:1fr; margin-top:0;">
-            <li class="li">Forme récente</li>
-            <li class="li">Forme saison</li>
-            <li class="li">Historique des confrontations</li>
-            <li class="li">Disponibilité des joueurs (absences / blessures)</li>
-          </ul>
-        </div>
-    
-        <div>
-          <h3 style="margin:0 0 10px; font-size:16px; color:var(--text);">Contexte & environnement</h3>
-          <ul class="list" style="grid-template-columns:1fr; margin-top:0;">
-            <li class="li">Fatigue et récupération</li>
-            <li class="li">Performance domicile / extérieur</li>
-            <li class="li">Niveau de la compétition</li>
-            <li class="li">Derby</li>
-          </ul>
-        </div>
-      </div>
-    
-      <div class="note" style="margin-top:14px;">
-        <strong>Format :</strong> un e-mail quotidien, avec une lecture claire et argumentée des matchs du jour.
-      </div>
-</section>
-
-    </section>
-
-    <!-- 4) PROCESS -->
+    <!-- Section 3 : ValueBot  Comment ca marche? -->
     <section id="process" class="sectionCard">
-      <p class="kicker">4 — Comment fonctionne l’analyse</p>
-      <h2>Un processus structuré et reproductible</h2>
-    
-      <div class="steps" aria-label="Étapes de l'analyse">
+      <p class="kicker">3 — Comment ça marche ?</p>
+      <h2>Un processus cyclique relancé chaque jour</h2>
+      <p class="p">
+        ValueBot reprend une logique d’analyse humaine, intégrée dans un processus automatisé et <strong>répété quotidiennement</strong>.
+      </p>
+
+      <div class="steps" aria-label="Étapes du processus">
         <div class="step">
           <div class="n">1</div>
           <strong>Récupération des matchs du jour</strong>
-          Identification des rencontres programmées à analyser.
+          Identification des rencontres programmées.
         </div>
-    
         <div class="step">
           <div class="n">2</div>
           <strong>Sélection des matchs indécis</strong>
-          Filtrage des rencontres présentant un équilibre apparent.
+          Focus sur les matchs équilibrés / difficiles à lire.
         </div>
-    
         <div class="step">
           <div class="n">3</div>
           <strong>Collecte des données des équipes</strong>
-          Agrégation des informations sportives pertinentes pour chaque équipe.
+          Agrégation des données pertinentes par équipe.
         </div>
-    
         <div class="step">
           <div class="n">4</div>
-          <strong>Analyse et évaluation par catégorie</strong>
-          Étude détaillée des facteurs clés influençant la rencontre.
+          <strong>Analyse par catégorie</strong>
+          Forme récente, forme saison, H2H, absences, fatigue, home/away, niveau, derby.
         </div>
-    
         <div class="step">
           <div class="n">5</div>
           <strong>Comparaison des équipes</strong>
-          Mise en perspective des données pour identifier les déséquilibres.
+          Mise en perspective pour identifier les déséquilibres.
+        </div>
+        <div class="step">
+          <div class="n">6</div>
+          <strong>Sélection selon les écarts</strong>
+          Priorisation des matchs où l’analyse révèle les écarts les plus marqués.
         </div>
       </div>
-    
-      <div class="note" style="margin-top:14px;">
-        <strong>Phrase clé :</strong> La comparaison des équipes met en lumière des situations statistiquement déséquilibrées.
+
+      <div class="cycleNote" aria-label="Cycle quotidien">
+        <div class="left">
+          <div class="t">Cycle quotidien</div>
+          <div>Le processus se relance automatiquement chaque jour, en continu.</div>
+        </div>
+        <div class="loop" aria-hidden="true">↺</div>
       </div>
     </section>
 
-
-    <!-- 5) LECTURE DES SCORES -->
-    <section id="scores" class="sectionCard">
-      <p class="kicker">5 — Lecture des scores</p>
-      <h2>Comprendre l’écart, simplement</h2>
-
-      <div class="twoCols">
-        <div class="note" style="margin:0;">
-          <strong>Exemple :</strong><br/>
-          Score équipe A : 78%<br/>
-          Score équipe B : 52%<br/>
-          Écart significatif détecté
-        </div>
-
-        <div class="note" style="margin:0;">
-          Plus l’écart est important, plus la différence de performance mesurée est forte selon le modèle.
-        </div>
-      </div>
-    </section>
-
-    <!-- 6) TRANSPARENCE -->
-    <section id="transparence" class="sectionCard">
-      <p class="kicker">6 — Transparence & méthodologie</p>
-      <h2>Rassurer par la clarté</h2>
-
-      <ul class="list">
-        <li class="li"><strong>Méthodologie documentée</strong><br/>Cadre clair, explicable et stable.</li>
-        <li class="li"><strong>Historique des analyses conservé</strong><br/>Traçabilité et suivi dans le temps.</li>
-        <li class="li"><strong>Indicateurs explicables</strong><br/>Compréhension des facteurs principaux.</li>
-        <li class="li"><strong>Pas de décisions automatiques</strong><br/>Outil d’aide à la lecture, sans automatisme.</li>
-      </ul>
-
-      <div class="note">
-        <strong>Phrase clé :</strong> ValueBot est un outil d’aide à l’analyse, pas un système de prédiction garanti.
-      </div>
-    </section>
-
-    <!-- 7) AUDIENCE -->
+    <!-- Section 4 : ValueBot  c'est Pour qui ? -->
     <section id="audience" class="sectionCard">
-      <p class="kicker">7 — À qui s’adresse ValueBot ?</p>
-      <h2>Pour les profils rationnels</h2>
+      <p class="kicker">4 — Pour qui ?</p>
+      <h2>Pour les profils qui aiment analyser rationnellement</h2>
 
-      <div class="twoCols">
-        <div class="note" style="margin:0;">
-          <strong>✅ Pour :</strong>
-          <div class="badgeRow" aria-label="Pour">
-            <span class="badge">📌 Amateurs d’analyse football</span>
-            <span class="badge">📊 Passionnés de data sportive</span>
-            <span class="badge">🧠 Utilisateurs rationnels</span>
-            <span class="badge">✅ Décideurs disciplinés</span>
-          </div>
-        </div>
-
-        <div class="note" style="margin:0;">
-          <strong>❌ Pas pour :</strong>
-          <div class="badgeRow" aria-label="Pas pour">
-            <span class="badge">⚠️ Recherche de gains rapides</span>
-            <span class="badge">🚫 Contenu sensationnaliste</span>
-            <span class="badge">🎭 Décisions émotionnelles</span>
-          </div>
+      <div class="note" style="margin:0;">
+        <div class="badgeRow" aria-label="Profils">
+          <span class="badge">📌 Amateurs d’analyse football</span>
+          <span class="badge">📊 Passionnés de data sportive</span>
+          <span class="badge">⚽ Passionnés de football</span>
+          <span class="badge">🧠 Utilisateurs rationnels</span>
+          <span class="badge">✅ Décideurs disciplinés</span>
         </div>
       </div>
     </section>
 
-    <!-- 8) CTA FINAL -->
-    <section id="analyses" class="sectionCard">
-      <p class="kicker">8 — Accès</p>
-      <h2>Accéder aux analyses du jour</h2>
+    <!-- Section 5 : Comment recevoir l'email quotidien ? -->
+    <section id="email" class="sectionCard">
+      <p class="kicker">5 — Recevoir l’e-mail quotidien</p>
+      <h2>Accéder à l’e-mail chaque jour</h2>
+      <p class="p">
+        Deux actions : s’abonner pour recevoir l’e-mail quotidien, puis gérer l’abonnement (pause / résiliation) via Stripe.
+      </p>
 
-      <div class="ctaFinal">
-        <div class="text">
-          <div class="t">Accéder aux analyses du jour</div>
-          <div class="s">Consultation libre – données objectives – approche responsable</div>
-        </div>
-        <a class="btn btnPrimary" href="#" aria-label="Accéder aux analyses du jour">
-          Accéder <span aria-hidden="true">→</span>
+      <div class="ctaRow">
+        <!-- 🔁 Remplace par ton URL Stripe Checkout -->
+        <a class="btn btnPrimary" href="https://example.com/stripe-checkout" aria-label="S'abonner via Stripe">
+          S’abonner (Stripe) <span aria-hidden="true">→</span>
+        </a>
+
+        <!-- 🔁 Remplace par ton URL Stripe Customer Portal -->
+        <a class="btn" href="https://example.com/stripe-portal" aria-label="Gérer mon abonnement via Stripe">
+          Gérer mon abonnement <span aria-hidden="true">→</span>
         </a>
       </div>
 
-      <div class="note" style="margin-top:14px;">
-        Astuce : remplace le lien du bouton <strong>Accéder</strong> par ton URL Stripe (ou ta page app) quand tu seras prêt.
+      <div class="note">
+        <strong>Important :</strong> remplace les liens Stripe ci-dessus par tes URLs réelles (Checkout + Customer Portal).
       </div>
     </section>
 
-    <!-- 9) FOOTER -->
+    <!-- Footer -->
     <footer>
       <div>
         <strong>ValueBot</strong><br />
@@ -670,9 +584,9 @@
       </div>
 
       <div class="footerLinks">
-        <a href="#top">Haut de page</a>
-        <a href="#transparence">Méthodologie</a>
-        <a href="#audience">Pour qui ?</a>
+        <a href="#cestquoi">C’est quoi ?</a>
+        <a href="#process">Méthode</a>
+        <a href="#email">Recevoir l’e-mail</a>
       </div>
 
       <div style="max-width: 58ch;">
