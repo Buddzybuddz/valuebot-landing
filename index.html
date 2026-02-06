@@ -25,24 +25,21 @@
       --radius2: 24px;
       --max: 1040px;
       --accent: #ffffff;
-      --accent-blue: #5fd3ff; /* bleu yeux IA */
+      --accent-blue: #5fd3ff;
     }
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
-
-    /* ✅ Fond uniforme noir */
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--text);
       background: var(--bg);
       line-height: 1.5;
-      position: relative;
       overflow-x: hidden;
     }
 
-    /* ✅ Glow uniquement en haut (ne se répète pas) */
+    /* Glow uniquement en haut */
     body::before{
       content:"";
       position: fixed;
@@ -71,18 +68,25 @@
     }
 
     /* ===== Header (2 lignes desktop) ===== */
-    header.siteHeader{
-      position: relative;
+    header{
+      position: sticky;
+      top: 0;
       z-index: 30;
-      margin-bottom: 12px;
+      background: rgba(11,13,18,0.65);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .headerInner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 10px 18px 10px;
     }
 
-    .headerTop{
+    .topRow{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 14px;
-      padding: 10px 0 8px;
+      gap: 12px;
     }
 
     .brand{
@@ -92,35 +96,40 @@
       font-weight: 800;
       letter-spacing: 0.3px;
       flex: 0 0 auto;
+      min-width: 0;
     }
-
     .logo{
-      width:34px; height:34px;
+      width:34px;
+      height:34px;
       border-radius: 10px;
       border:1px solid var(--border);
       background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.05));
       box-shadow: 0 8px 22px rgba(0,0,0,0.35);
-      display:grid; place-items:center;
+      display:grid;
+      place-items:center;
       font-size: 16px;
+      flex: 0 0 auto;
     }
 
-    .headerCtas{
+    .ctaRowTop{
       display:flex;
       align-items:center;
       gap: 10px;
       flex: 0 0 auto;
+      white-space: nowrap;
     }
 
     .navCta{
-      border: 1px solid rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.18);
       background: rgba(255,255,255,0.06);
       color: var(--text);
       font-weight: 900;
       padding: 10px 12px;
-      border-radius: 12px;
-      white-space: nowrap;
+      border-radius: 14px;
+      transition: background .15s ease, border-color .15s ease, transform .08s ease;
     }
-    .navCta:hover{ border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.09); }
+    .navCta:hover{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.26); }
+    .navCta:active{ transform: translateY(1px); }
 
     .navCta.primary{
       background: var(--accent);
@@ -129,30 +138,35 @@
     }
     .navCta.primary:hover{ background: rgba(255,255,255,0.92); }
 
-    .headerMenu{
+    /* 2ème ligne: menu centré (desktop) */
+    .menuRow{
+      margin-top: 10px;
+      display:flex;
+      justify-content:center; /* ✅ centré écran */
+    }
+    .topnav{
       display:flex;
       align-items:center;
-      justify-content:flex-start;
-      gap: 12px;
-      padding: 10px 0 6px;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      justify-content:center;
+      gap: 20px;
+      flex-wrap: wrap; /* si écran étroit, ça reste centré */
+      padding-bottom: 6px;
     }
-
     .navlink{
       color: var(--muted);
       padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
-      font-size: 14px;
-      white-space: nowrap;
+      font-size: 15px;
+      transition: background .15s ease, border-color .15s ease, color .15s ease;
     }
     .navlink:hover{
-      border-color: var(--border);
+      border-color: rgba(255,255,255,0.14);
       background: rgba(255,255,255,0.04);
       color: var(--text);
     }
 
-    /* Burger (mobile) */
+    /* ===== Burger (mobile) ===== */
     .burger{
       display:none;
       width:44px;
@@ -163,98 +177,62 @@
       cursor:pointer;
       align-items:center;
       justify-content:center;
-      padding:0;
+      flex-direction: column;
+      gap: 5px;
     }
     .burger span{
       display:block;
       width:22px;
       height:2px;
       background: rgba(255,255,255,0.92);
-      margin:4px 0;
       border-radius:999px;
       transition: transform .2s ease, opacity .2s ease;
     }
 
-    /* Drawer mobile (plein écran, NET, pas flou) */
-    .drawerBackdrop{
+    /* Menu mobile fullscreen */
+    .mobileNav{
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.78);
-      z-index: 80;
+      z-index: 60;
+      background: #0b0d12; /* ✅ net, pas flou */
       display:none;
+      padding: 22px;
     }
+    body.nav-open .mobileNav{ display:flex; flex-direction:column; justify-content:center; gap: 12px; }
+    body.nav-open{ overflow:hidden; }
 
-    .drawer{
-      position: fixed;
-      inset: 0;
-      background: #0b0d12; /* noir net */
-      z-index: 90;
-      display:none;
-      padding: 22px 18px;
-    }
-
-    .drawerHeader{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      padding: 6px 0 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .drawerNav{
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-      padding-top: 16px;
-    }
-
-    .drawerNav a{
+    .mobileNav a{
       display:flex;
       justify-content:center;
+      align-items:center;
       text-align:center;
+      font-size: 18px;
       padding: 14px 14px;
-      border-radius: 14px;
+      border-radius: 16px;
       border: 1px solid rgba(255,255,255,0.14);
       background: rgba(255,255,255,0.06);
       color: rgba(255,255,255,0.92);
-      font-weight: 750;
-      font-size: 16px;
     }
-
-    .drawerNav a.drawerCtaPrimary{
+    .mobileNav a.mobilePrimary{
       background: #ffffff;
       color: #0b0d12;
       border-color: rgba(255,255,255,0.35);
       font-weight: 900;
     }
 
-    .drawerNav a.drawerCta{
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.18);
-    }
-
-    body.nav-open{
-      overflow: hidden;
-    }
-    body.nav-open .drawerBackdrop{ display:block; }
-    body.nav-open .drawer{ display:block; }
-
     /* Burger -> X */
-    body.nav-open .burger span:nth-child(1){ transform: translateY(8px) rotate(45deg); }
+    body.nav-open .burger span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
     body.nav-open .burger span:nth-child(2){ opacity: 0; }
-    body.nav-open .burger span:nth-child(3){ transform: translateY(-8px) rotate(-45deg); }
+    body.nav-open .burger span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
 
-    /* ===== Sections base ===== */
+    /* ===== Sections ===== */
     section{ margin-top: 26px; }
-
     .sectionCard{
       border:1px solid rgba(255,255,255,0.08);
       background: #0b0d12;
       border-radius: var(--radius2);
       padding: 22px 20px;
     }
-
     .kicker{
       color: var(--muted2);
       font-size: 13px;
@@ -262,7 +240,6 @@
       letter-spacing: 0.6px;
       margin: 0 0 10px;
     }
-
     h1{
       margin:0 0 10px;
       font-size: 44px;
@@ -270,8 +247,8 @@
       letter-spacing: -0.8px;
     }
     h2{
-      margin: 0 0 10px;
-      font-size: 26px;
+      margin: 0 0 12px;
+      font-size: 28px;
       letter-spacing: -0.3px;
     }
     .subtitle{
@@ -282,13 +259,6 @@
     }
     .p{ margin: 0 0 10px; color: var(--muted); }
 
-    .twoCols{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 12px;
-    }
-
     .list{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -298,13 +268,13 @@
       list-style:none;
     }
     .li{
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
       border-radius: 14px;
       padding: 12px 12px;
       color: var(--muted);
     }
-    .li strong{ color: var(--text); font-weight: 650; }
+    .li strong{ color: var(--text); font-weight: 800; }
 
     .note{
       margin-top: 12px;
@@ -314,29 +284,31 @@
       background: rgba(255,255,255,0.03);
       color: var(--muted);
     }
-    .note strong{ color: var(--text); }
 
-    /* Buttons (hero uniquement) */
+    /* Buttons */
     .ctaRow{
-      display:flex; gap: 12px; align-items:center; flex-wrap:wrap;
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      flex-wrap:wrap;
       margin-top: 18px;
     }
     .btn{
-      display:inline-flex; align-items:center; justify-content:center;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       gap:10px;
       padding: 12px 16px;
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid var(--border);
       background: rgba(255,255,255,0.06);
       color: var(--text);
       font-weight: 900;
       cursor:pointer;
       transition: transform .08s ease, background .15s ease, border-color .15s ease;
-      white-space: nowrap;
     }
     .btn:hover{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.18); }
     .btn:active{ transform: translateY(1px); }
-
     .btnPrimary{
       background: var(--accent);
       color: #0b0d12;
@@ -346,14 +318,14 @@
 
     /* Hero */
     .hero{
-      padding: 12px 0 0;
+      padding: 22px 0 0;
       display:grid;
       grid-template-columns: 1.15fr 0.85fr;
       gap: 18px;
       align-items: stretch;
     }
     .heroCard{
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid var(--border);
       background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
       border-radius: var(--radius2);
       box-shadow: var(--shadow);
@@ -376,19 +348,21 @@
       margin-top: 16px;
     }
     .bullet{
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
       border-radius: 14px;
       padding: 12px 12px;
       color: var(--muted);
-      display:flex; gap:10px; align-items:flex-start;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
     }
     .bullet .emoji{ font-size: 18px; line-height:1; margin-top:2px; }
-    .bullet strong{ color: var(--text); font-weight: 650; }
+    .bullet strong{ color: var(--text); font-weight: 800; }
 
-    /* ValueBot visuel */
+    /* Visuel */
     .preview{
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
       border-radius: var(--radius2);
       padding: 18px 18px;
@@ -398,7 +372,6 @@
       justify-content:space-between;
       gap: 14px;
     }
-
     .valuebot{ padding:0; overflow:hidden; position:relative; }
     .valuebot-inner{
       position: relative;
@@ -436,10 +409,11 @@
       );
     }
     .pill{
-      display:inline-flex; align-items:center;
+      display:inline-flex;
+      align-items:center;
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
       color: var(--muted);
       font-size: 13px;
@@ -466,7 +440,7 @@
       margin-top: 12px;
     }
     .step{
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
       border-radius: 16px;
       padding: 14px 12px;
@@ -477,7 +451,7 @@
       width: 28px; height: 28px;
       display:inline-grid; place-items:center;
       border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
       color: var(--text);
       font-weight: 900;
@@ -511,16 +485,63 @@
       font-weight: 900;
     }
 
-    /* Audience badges */
-    .badgeRow{ display:flex; flex-wrap:wrap; gap: 8px; margin-top: 10px; }
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 8px 10px;
-      border-radius: 999px;
+    /* Section 5: stack */
+    .stackCards{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 14px;
+      max-width: 760px; /* rendu plus “empilé” */
+    }
+    .stackCard{
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.04);
+      border-radius: 16px;
+      padding: 14px 14px;
+    }
+    .stackCard .t{
+      font-weight: 900;
+      color: var(--text);
+      margin-bottom: 4px;
+      font-size: 18px;
+    }
+    .stackCard .s{
       color: var(--muted);
-      font-size: 13px;
+      font-size: 16px;
+    }
+
+    /* Section 6: carte unique empilée + bouton centré */
+    .priceWrap{
+      max-width: 760px;
+      margin-top: 14px;
+    }
+    .priceCard{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      border-radius: 18px;
+      padding: 18px 18px;
+    }
+    .priceItem{
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+    }
+    .priceItem + .priceItem{ margin-top: 10px; }
+    .priceItem .t{
+      font-weight: 950;
+      color: var(--text);
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+    .priceItem .s{
+      color: var(--muted);
+      font-size: 16px;
+    }
+    .priceCta{
+      display:flex;
+      justify-content:center; /* ✅ centré sous la carte */
+      margin-top: 14px;
     }
 
     /* Footer */
@@ -537,103 +558,82 @@
       gap: 12px;
     }
     .footerLinks{ display:flex; gap: 12px; flex-wrap:wrap; }
-    .footerLinks a{
-      color: var(--muted2);
-      border-bottom: 1px solid transparent;
-    }
+    .footerLinks a{ color: var(--muted2); border-bottom: 1px solid transparent; }
     .footerLinks a:hover{ color: var(--text); border-bottom-color: rgba(255,255,255,0.35); }
 
     /* ===== Responsive ===== */
     @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
       .bullets{ grid-template-columns: 1fr; }
-      .twoCols{ grid-template-columns: 1fr; }
       .list{ grid-template-columns: 1fr; }
       .steps{ grid-template-columns: 1fr; }
       h1{ font-size: 38px; }
       .valuebot-inner{ min-height: 360px; }
 
-      /* desktop menu -> burger + drawer */
-      .headerMenu{ display:none; }
-      .headerCtas a.navCta{ display:none; } /* CTAs passent dans le drawer */
+      /* desktop menu caché, burger visible */
+      .menuRow{ display:none; }
+      .ctaRowTop{ display:none; }
       .burger{ display:inline-flex; }
     }
 
     @media (max-width: 520px){
       h1{ font-size: 34px; }
+      .headerInner{ padding: 10px 14px 10px; }
+      .wrap{ padding: 18px 14px 60px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-
-    <!-- ===== Header (logo à gauche, CTAs à droite, menu en dessous) ===== -->
-    <header class="siteHeader" aria-label="En-tête">
-      <div class="headerTop">
+  <!-- Header sticky -->
+  <header>
+    <div class="headerInner">
+      <div class="topRow">
         <div class="brand">
           <div class="logo">VB</div>
           <div>ValueBot</div>
         </div>
 
-        <div class="headerCtas">
-          <!-- CTAs desktop -->
-          <a class="navCta primary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">
-            Recevoir l’email
-          </a>
-          <a class="navCta" href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener">
-            Gérer mon abonnement
-          </a>
-
-          <!-- Burger (mobile) -->
-          <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
-            <span></span><span></span><span></span>
-          </button>
+        <!-- CTAs (desktop) -->
+        <div class="ctaRowTop" aria-label="Actions">
+          <a class="navCta primary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">Recevoir l’email</a>
+          <a class="navCta" href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener">Gérer mon abonnement</a>
         </div>
-      </div>
 
-      <!-- Menu (2e ligne desktop) -->
-      <nav class="headerMenu" aria-label="Menu principal">
-        <a class="navlink" href="#cestquoi">C’est quoi ?</a>
-        <a class="navlink" href="#casert">Ça sert à quoi ?</a>
-        <a class="navlink" href="#comment">Comment ça marche ?</a>
-        <a class="navlink" href="#pourqui">Pour qui ?</a>
-        <a class="navlink" href="#recoisquoi">Je reçois quoi ?</a>
-        <a class="navlink" href="#combien">Pour combien ?</a>
-      </nav>
-    </header>
-
-    <!-- Drawer mobile -->
-    <div class="drawerBackdrop" id="drawerBackdrop" aria-hidden="true"></div>
-    <aside class="drawer" id="drawer" aria-label="Menu mobile">
-      <div class="drawerHeader">
-        <div class="brand">
-          <div class="logo">VB</div>
-          <div>ValueBot</div>
-        </div>
-        <button class="burger" id="burgerCloseBtn" aria-label="Fermer le menu" aria-expanded="true">
+        <!-- Burger (mobile) -->
+        <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
       </div>
 
-      <nav class="drawerNav">
-        <a href="#cestquoi">C’est quoi ?</a>
-        <a href="#casert">Ça sert à quoi ?</a>
-        <a href="#comment">Comment ça marche ?</a>
-        <a href="#pourqui">Pour qui ?</a>
-        <a href="#recoisquoi">Je reçois quoi ?</a>
-        <a href="#combien">Pour combien ?</a>
+      <!-- Menu (desktop) centré -->
+      <div class="menuRow">
+        <nav class="topnav" aria-label="Navigation principale">
+          <a class="navlink" href="#cestquoi">C’est quoi ?</a>
+          <a class="navlink" href="#casert">Ça sert à quoi ?</a>
+          <a class="navlink" href="#comment">Comment ça marche ?</a>
+          <a class="navlink" href="#pourqui">Pour qui ?</a>
+          <a class="navlink" href="#je-recois">Je reçois quoi ?</a>
+          <a class="navlink" href="#prix">Pour combien ?</a>
+        </nav>
+      </div>
+    </div>
+  </header>
 
-        <a class="drawerCtaPrimary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">
-          Recevoir l’email
-        </a>
-        <a class="drawerCta" href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener">
-          Gérer mon abonnement
-        </a>
-      </nav>
-    </aside>
+  <!-- Menu mobile fullscreen -->
+  <nav class="mobileNav" id="mobileNav" aria-label="Menu mobile">
+    <a href="#cestquoi">C’est quoi ?</a>
+    <a href="#casert">Ça sert à quoi ?</a>
+    <a href="#comment">Comment ça marche ?</a>
+    <a href="#pourqui">Pour qui ?</a>
+    <a href="#je-recois">Je reçois quoi ?</a>
+    <a href="#prix">Pour combien ?</a>
+    <a class="mobilePrimary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">Recevoir l’email</a>
+    <a href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener">Gérer mon abonnement</a>
+  </nav>
 
-    <!-- ===== Section 1 : C’est quoi ? ===== -->
+  <div class="wrap">
+    <!-- Section 1 -->
     <section class="hero" id="cestquoi">
       <div class="heroCard">
         <h1 class="accentTitle">ValueBot, c’est quoi ?</h1>
@@ -647,9 +647,7 @@
           <a class="btn btnPrimary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">
             Recevoir l’email quotidien <span aria-hidden="true">→</span>
           </a>
-          <a class="btn" href="#comment">
-            Voir comment ça marche
-          </a>
+          <a class="btn" href="#comment">Voir comment ça marche</a>
         </div>
 
         <div class="bullets" aria-label="Ce que fait ValueBot">
@@ -675,7 +673,7 @@
       </aside>
     </section>
 
-    <!-- ===== Section 2 : Ça sert à quoi ? ===== -->
+    <!-- Section 2 -->
     <section id="casert" class="sectionCard">
       <p class="kicker">2 — Ça sert à quoi ?</p>
       <h2>Gagner du temps et repérer des erreurs de cotation</h2>
@@ -694,7 +692,7 @@
       </ul>
     </section>
 
-    <!-- ===== Section 3 : Comment ça marche ? ===== -->
+    <!-- Section 3 -->
     <section id="comment" class="sectionCard">
       <p class="kicker">3 — Comment ça marche ?</p>
       <h2>Un processus cyclique relancé chaque jour</h2>
@@ -721,51 +719,88 @@
       </div>
     </section>
 
-    <!-- ===== Section 4 : Pour qui ? ===== -->
+    <!-- Section 4 -->
     <section id="pourqui" class="sectionCard">
       <p class="kicker">4 — Pour qui ?</p>
       <h2>Pour les profils qui aiment analyser rationnellement</h2>
 
       <div class="note" style="margin:0;">
-        <div class="badgeRow" aria-label="Profils">
-          <span class="badge">📌 Amateurs d’analyse football</span>
-          <span class="badge">📊 Passionnés de data sportive</span>
-          <span class="badge">⚽ Passionnés de football</span>
-          <span class="badge">🧠 Utilisateurs rationnels</span>
-          <span class="badge">✅ Décideurs disciplinés</span>
+        <div class="badgeRow" aria-label="Profils" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+          <span class="li" style="display:inline-flex; width:auto; padding:8px 10px;">📌 Amateurs d’analyse football</span>
+          <span class="li" style="display:inline-flex; width:auto; padding:8px 10px;">📊 Passionnés de data sportive</span>
+          <span class="li" style="display:inline-flex; width:auto; padding:8px 10px;">⚽ Passionnés de football</span>
+          <span class="li" style="display:inline-flex; width:auto; padding:8px 10px;">🧠 Utilisateurs rationnels</span>
+          <span class="li" style="display:inline-flex; width:auto; padding:8px 10px;">✅ Décideurs disciplinés</span>
         </div>
       </div>
     </section>
 
-    <!-- ===== Section 5 : Je reçois quoi ? ===== -->
-    <section id="recoisquoi" class="sectionCard">
+    <!-- Section 5 -->
+    <section id="je-recois" class="sectionCard">
       <p class="kicker">5 — Je reçois quoi ?</p>
       <h2>1 email quotidien, clair et actionnable</h2>
       <p class="p">
         Tu reçois <strong>1 mail par jour entre 12h et 12h30</strong> avec le ou les matchs sélectionnés et une analyse complète.
       </p>
 
-      <ul class="list">
-        <li class="li"><strong>Heure du match</strong><br/>Pour situer immédiatement la rencontre.</li>
-        <li class="li"><strong>Championnat / compétition</strong><br/>Contexte de la rencontre (ligue / coupe / Europe…).</li>
-        <li class="li"><strong>Équipe ayant l’avantage</strong><br/>Lecture synthétique de l’avantage statistique.</li>
-        <li class="li"><strong>Analyse rédigée</strong><br/>Explication claire des facteurs déterminants.</li>
-        <li class="li"><strong>Stats des analyses (saison)</strong><br/>Indicateurs de suivi et statistiques cumulées.</li>
-        <li class="li"><strong>Match(s) sélectionné(s)</strong><br/>Le ou les matchs retenus selon les écarts détectés.</li>
-      </ul>
+      <!-- ✅ Empilé, ordre demandé -->
+      <div class="stackCards" aria-label="Contenu de l'email">
+        <div class="stackCard">
+          <div class="t">Heure du match</div>
+          <div class="s">Pour situer immédiatement la rencontre.</div>
+        </div>
+        <div class="stackCard">
+          <div class="t">Championnat / compétition</div>
+          <div class="s">Contexte de la rencontre (ligue / coupe / Europe...).</div>
+        </div>
+        <div class="stackCard">
+          <div class="t">Équipe ayant l’avantage</div>
+          <div class="s">Lecture synthétique de l’avantage statistique.</div>
+        </div>
+        <div class="stackCard">
+          <div class="t">Analyse rédigée</div>
+          <div class="s">Explication claire des facteurs déterminants.</div>
+        </div>
+        <div class="stackCard">
+          <div class="t">Stats des analyses (saison)</div>
+          <div class="s">Indicateurs de suivi et statistiques cumulées.</div>
+        </div>
+      </div>
     </section>
 
-    <!-- ===== Section 6 : Combien ça coûte ? ===== -->
-    <section id="combien" class="sectionCard">
+    <!-- Section 6 -->
+    <section id="prix" class="sectionCard">
       <p class="kicker">6 — Combien ça coûte ?</p>
       <h2>Une formule simple, sans engagement</h2>
 
-      <ul class="list">
-        <li class="li"><strong>3€ / semaine</strong><br/>Accès à l’email quotidien.</li>
-        <li class="li"><strong>Sans engagement</strong><br/>Résiliable par vous à tout moment.</li>
-        <li class="li"><strong>Non remboursable</strong><br/>Toute semaine débutée est due.</li>
-        <li class="li"><strong>Gestion via Stripe</strong><br/>Paiement et portail client centralisés.</li>
-      </ul>
+      <div class="priceWrap">
+        <div class="priceCard" aria-label="Détails tarif">
+          <!-- ✅ Ordre demandé -->
+          <div class="priceItem">
+            <div class="t">3€ / semaine</div>
+            <div class="s">Accès à l’email quotidien.</div>
+          </div>
+          <div class="priceItem">
+            <div class="t">Sans engagement</div>
+            <div class="s">Résiliable par vous à tout moment.</div>
+          </div>
+          <div class="priceItem">
+            <div class="t">Non remboursable</div>
+            <div class="s">Toute semaine débutée est due.</div>
+          </div>
+          <div class="priceItem">
+            <div class="t">Gestion via Stripe</div>
+            <div class="s">Paiement et portail client centralisés.</div>
+          </div>
+
+          <!-- ✅ Bouton centré sous la carte -->
+          <div class="priceCta">
+            <a class="btn btnPrimary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">
+              Recevoir le mail <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
@@ -777,54 +812,49 @@
 
       <div class="footerLinks">
         <a href="#cestquoi">C’est quoi ?</a>
-        <a href="#recoisquoi">Je reçois quoi ?</a>
-        <a href="#combien">Pour combien ?</a>
+        <a href="#je-recois">Je reçois quoi ?</a>
+        <a href="#prix">Pour combien ?</a>
       </div>
 
       <div style="max-width: 58ch;">
         Disclaimer : Les analyses proposées sont fournies à titre informatif et ne constituent pas un conseil financier ou une incitation au jeu.
       </div>
     </footer>
-
   </div>
 
   <script>
     (function () {
-      const openBtn = document.getElementById("burgerBtn");
-      const closeBtn = document.getElementById("burgerCloseBtn");
-      const drawer = document.getElementById("drawer");
-      const backdrop = document.getElementById("drawerBackdrop");
+      const burgerBtn = document.getElementById("burgerBtn");
+      const mobileNav = document.getElementById("mobileNav");
+
+      if (!burgerBtn || !mobileNav) return;
 
       function openNav() {
         document.body.classList.add("nav-open");
-        openBtn && openBtn.setAttribute("aria-expanded", "true");
+        burgerBtn.setAttribute("aria-expanded", "true");
       }
-
       function closeNav() {
         document.body.classList.remove("nav-open");
-        openBtn && openBtn.setAttribute("aria-expanded", "false");
+        burgerBtn.setAttribute("aria-expanded", "false");
+      }
+      function toggleNav() {
+        document.body.classList.contains("nav-open") ? closeNav() : openNav();
       }
 
-      if (openBtn) openBtn.addEventListener("click", openNav);
-      if (closeBtn) closeBtn.addEventListener("click", closeNav);
-      if (backdrop) backdrop.addEventListener("click", closeNav);
+      burgerBtn.addEventListener("click", toggleNav);
 
-      // ferme au clic sur un lien du drawer
-      if (drawer) {
-        drawer.addEventListener("click", (e) => {
-          const a = e.target.closest("a");
-          if (!a) return;
-          // liens internes : on ferme et on laisse le scroll se faire
-          if (a.getAttribute("href") && a.getAttribute("href").startsWith("#")) closeNav();
-        });
-      }
+      // Fermer au clic sur un lien
+      mobileNav.addEventListener("click", (e) => {
+        const a = e.target.closest("a");
+        if (a) closeNav();
+      });
 
-      // ESC
+      // Fermer sur ESC
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeNav();
       });
 
-      // si retour desktop -> ferme
+      // Si on repasse desktop, on ferme
       window.addEventListener("resize", () => {
         if (window.innerWidth > 980) closeNav();
       });
