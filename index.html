@@ -67,7 +67,7 @@
         0 0 30px rgba(95,211,255,0.25);
     }
 
-    /* ===== Header (2 lignes desktop) ===== */
+    /* ===== Header ===== */
     header{
       position: sticky;
       top: 0;
@@ -138,18 +138,18 @@
     }
     .navCta.primary:hover{ background: rgba(255,255,255,0.92); }
 
-    /* 2ème ligne: menu centré (desktop) */
+    /* Menu centré (desktop) */
     .menuRow{
       margin-top: 10px;
       display:flex;
-      justify-content:center; /* ✅ centré écran */
+      justify-content:center;
     }
     .topnav{
       display:flex;
       align-items:center;
       justify-content:center;
       gap: 20px;
-      flex-wrap: wrap; /* si écran étroit, ça reste centré */
+      flex-wrap: wrap;
       padding-bottom: 6px;
     }
     .navlink{
@@ -166,7 +166,7 @@
       color: var(--text);
     }
 
-    /* ===== Burger (mobile) ===== */
+    /* Burger (mobile) */
     .burger{
       display:none;
       width:44px;
@@ -189,12 +189,11 @@
       transition: transform .2s ease, opacity .2s ease;
     }
 
-    /* Menu mobile fullscreen */
     .mobileNav{
       position: fixed;
       inset: 0;
       z-index: 60;
-      background: #0b0d12; /* ✅ net, pas flou */
+      background: #0b0d12;
       display:none;
       padding: 22px;
     }
@@ -275,15 +274,6 @@
       color: var(--muted);
     }
     .li strong{ color: var(--text); font-weight: 800; }
-
-    .note{
-      margin-top: 12px;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.03);
-      color: var(--muted);
-    }
 
     /* Buttons */
     .ctaRow{
@@ -485,22 +475,32 @@
       font-weight: 900;
     }
 
-    /* Section 5: stack */
+    /* ✅ Section 5: cartes pleine largeur + contenu centré */
     .stackCards{
       display:grid;
       grid-template-columns: 1fr;
       gap: 10px;
       margin-top: 14px;
-      max-width: 760px; /* rendu plus “empilé” */
+      max-width: none;          /* ✅ pleine largeur */
+      width: 100%;
     }
     .stackCard{
+      width: 100%;              /* ✅ pleine largeur */
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.04);
       border-radius: 16px;
-      padding: 14px 14px;
+      padding: 16px 14px;
+
+      /* ✅ centre le contenu */
+      text-align: center;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height: 110px;
     }
     .stackCard .t{
-      font-weight: 900;
+      font-weight: 950;
       color: var(--text);
       margin-bottom: 4px;
       font-size: 18px;
@@ -508,24 +508,36 @@
     .stackCard .s{
       color: var(--muted);
       font-size: 16px;
+      max-width: 70ch;
     }
 
-    /* Section 6: carte unique empilée + bouton centré */
+    /* ✅ Section 6: carte pleine largeur + contenu centré */
     .priceWrap{
-      max-width: 760px;
+      width: 100%;
+      max-width: none;          /* ✅ pleine largeur */
       margin-top: 14px;
     }
     .priceCard{
+      width: 100%;
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.04);
       border-radius: 18px;
       padding: 18px 18px;
     }
     .priceItem{
-      padding: 12px 12px;
+      width: 100%;
+      padding: 14px 12px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.10);
       background: rgba(255,255,255,0.03);
+
+      /* ✅ centre le contenu */
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height: 96px;
     }
     .priceItem + .priceItem{ margin-top: 10px; }
     .priceItem .t{
@@ -537,10 +549,11 @@
     .priceItem .s{
       color: var(--muted);
       font-size: 16px;
+      max-width: 70ch;
     }
     .priceCta{
       display:flex;
-      justify-content:center; /* ✅ centré sous la carte */
+      justify-content:center;
       margin-top: 14px;
     }
 
@@ -570,22 +583,21 @@
       h1{ font-size: 38px; }
       .valuebot-inner{ min-height: 360px; }
 
-      /* desktop menu caché, burger visible */
       .menuRow{ display:none; }
       .ctaRowTop{ display:none; }
       .burger{ display:inline-flex; }
     }
-
     @media (max-width: 520px){
       h1{ font-size: 34px; }
       .headerInner{ padding: 10px 14px 10px; }
       .wrap{ padding: 18px 14px 60px; }
+      .sectionCard{ padding: 18px 14px; }
+      .priceCard{ padding: 14px 14px; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Header sticky -->
   <header>
     <div class="headerInner">
       <div class="topRow">
@@ -594,19 +606,16 @@
           <div>ValueBot</div>
         </div>
 
-        <!-- CTAs (desktop) -->
         <div class="ctaRowTop" aria-label="Actions">
           <a class="navCta primary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">Recevoir l’email</a>
           <a class="navCta" href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener">Gérer mon abonnement</a>
         </div>
 
-        <!-- Burger (mobile) -->
         <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
       </div>
 
-      <!-- Menu (desktop) centré -->
       <div class="menuRow">
         <nav class="topnav" aria-label="Navigation principale">
           <a class="navlink" href="#cestquoi">C’est quoi ?</a>
@@ -620,7 +629,6 @@
     </div>
   </header>
 
-  <!-- Menu mobile fullscreen -->
   <nav class="mobileNav" id="mobileNav" aria-label="Menu mobile">
     <a href="#cestquoi">C’est quoi ?</a>
     <a href="#casert">Ça sert à quoi ?</a>
@@ -633,6 +641,7 @@
   </nav>
 
   <div class="wrap">
+
     <!-- Section 1 -->
     <section class="hero" id="cestquoi">
       <div class="heroCard">
@@ -724,8 +733,8 @@
       <p class="kicker">4 — Pour qui ?</p>
       <h2>Pour les profils qui aiment analyser rationnellement</h2>
 
-      <div class="note" style="margin:0;">
-        <div class="badgeRow" aria-label="Profils" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+      <div class="li" style="border-radius:18px; padding:12px; margin-top:12px;">
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
           <span class="li" style="display:inline-flex; width:auto; padding:8px 10px;">📌 Amateurs d’analyse football</span>
           <span class="li" style="display:inline-flex; width:auto; padding:8px 10px;">📊 Passionnés de data sportive</span>
           <span class="li" style="display:inline-flex; width:auto; padding:8px 10px;">⚽ Passionnés de football</span>
@@ -743,7 +752,6 @@
         Tu reçois <strong>1 mail par jour entre 12h et 12h30</strong> avec le ou les matchs sélectionnés et une analyse complète.
       </p>
 
-      <!-- ✅ Empilé, ordre demandé -->
       <div class="stackCards" aria-label="Contenu de l'email">
         <div class="stackCard">
           <div class="t">Heure du match</div>
@@ -775,7 +783,6 @@
 
       <div class="priceWrap">
         <div class="priceCard" aria-label="Détails tarif">
-          <!-- ✅ Ordre demandé -->
           <div class="priceItem">
             <div class="t">3€ / semaine</div>
             <div class="s">Accès à l’email quotidien.</div>
@@ -793,7 +800,6 @@
             <div class="s">Paiement et portail client centralisés.</div>
           </div>
 
-          <!-- ✅ Bouton centré sous la carte -->
           <div class="priceCta">
             <a class="btn btnPrimary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">
               Recevoir le mail <span aria-hidden="true">→</span>
@@ -826,7 +832,6 @@
     (function () {
       const burgerBtn = document.getElementById("burgerBtn");
       const mobileNav = document.getElementById("mobileNav");
-
       if (!burgerBtn || !mobileNav) return;
 
       function openNav() {
@@ -843,18 +848,15 @@
 
       burgerBtn.addEventListener("click", toggleNav);
 
-      // Fermer au clic sur un lien
       mobileNav.addEventListener("click", (e) => {
         const a = e.target.closest("a");
         if (a) closeNav();
       });
 
-      // Fermer sur ESC
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeNav();
       });
 
-      // Si on repasse desktop, on ferme
       window.addEventListener("resize", () => {
         if (window.innerWidth > 980) closeNav();
       });
