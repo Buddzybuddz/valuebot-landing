@@ -80,7 +80,7 @@
       gap:16px;
       padding: 10px 0 14px;
       position: relative;
-      z-index: 20;
+      z-index: 60; /* au-dessus du backdrop */
     }
 
     .brand{
@@ -141,22 +141,24 @@
     /* Burger button (mobile) */
     .burger{
       display:none;
-      width:40px;
-      height:40px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.06);
+      width:44px;
+      height:44px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08);
       cursor:pointer;
       align-items:center;
       justify-content:center;
+      z-index: 70; /* au-dessus du menu */
+      position: relative;
     }
     .burger span{
       display:block;
-      width:20px;
+      width:22px;
       height:2px;
-      background:#fff;
-      margin:3px 0;
-      border-radius:2px;
+      background: rgba(255,255,255,0.92);
+      margin:4px 0;
+      border-radius:999px;
       transition: transform .2s ease, opacity .2s ease;
     }
 
@@ -164,8 +166,8 @@
     .navBackdrop{
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.78);
-      z-index: 40;
+      background: rgba(0,0,0,0.72);
+      z-index: 50;
     }
     .navBackdrop[hidden]{ display:none !important; }
 
@@ -467,7 +469,7 @@
     }
     .footerLinks a:hover{ color: var(--text); border-bottom-color: rgba(255,255,255,0.35); }
 
-    /* ===== Responsive + Burger behavior ===== */
+    /* ===== Mobile menu: plein écran (net, lisible) ===== */
     @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
       .bullets{ grid-template-columns: 1fr; }
@@ -477,52 +479,54 @@
       h1{ font-size: 38px; }
       .valuebot-inner{ min-height: 360px; }
 
+      /* show burger */
       .burger{ display:inline-flex; }
+
+      /* menu plein écran */
       .topnav{
         position: fixed;
-        top: 16px;
-        right: 16px;
-        left: 16px;
-        z-index: 50;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 55;
 
         display:flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
+        flex-direction:column;
+        justify-content:center;
+        gap: 14px;
 
-        padding: 14px;
-        border-radius: 18px;
-        border: 1px solid rgba(255,255,255,0.14);
-        background: rgba(15,18,26,0.95);
-        box-shadow: 0 18px 60px rgba(0,0,0,0.55);
+        padding: 24px;
 
-        transform: translateY(-10px);
+        background: #0b0d12;
+
         opacity: 0;
         pointer-events: none;
-        transition: opacity .18s ease, transform .18s ease;
-      }
-      .topnav .navlink{
-        display:flex;
-        justify-content:center;
-        padding: 12px 12px;
-        border-radius: 14px;
-        border: 1px solid rgba(255,255,255,0.10);
-        background: rgba(255,255,255,0.04);
-      }
-      .topnav .navCta{
-        border-color: rgba(255,255,255,0.18);
-        background: rgba(255,255,255,0.06);
-      }
-      .topnav .navCta.primary{
-        background: var(--accent);
-        color: #0b0d12;
+        transition: opacity .18s ease;
       }
 
       body.nav-open .topnav{
-        transform: translateY(0);
         opacity: 1;
         pointer-events: auto;
       }
+
+      .topnav .navlink{
+        color: rgba(255,255,255,0.92);
+        text-align:center;
+        font-size: 18px;
+        padding: 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.06);
+      }
+
+      .topnav .navCta{
+        font-weight: 900;
+      }
+      .topnav .navCta.primary{
+        background: #ffffff;
+        color: #0b0d12;
+        border-color: rgba(255,255,255,0.35);
+      }
+
+      body.nav-open{ overflow: hidden; }
     }
 
     @media (max-width: 520px){
@@ -530,9 +534,9 @@
     }
 
     /* Burger -> X */
-    body.nav-open .burger span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+    body.nav-open .burger span:nth-child(1){ transform: translateY(8px) rotate(45deg); }
     body.nav-open .burger span:nth-child(2){ opacity: 0; }
-    body.nav-open .burger span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+    body.nav-open .burger span:nth-child(3){ transform: translateY(-8px) rotate(-45deg); }
   </style>
 </head>
 
@@ -551,12 +555,13 @@
         <span></span><span></span><span></span>
       </button>
 
-      <!-- Nav (desktop) + drawer (mobile) -->
+      <!-- Nav (desktop) + mobile full-screen -->
       <nav class="topnav" id="topnav" aria-label="Navigation principale">
         <a class="navlink" href="#cestquoi">C’est quoi ?</a>
         <a class="navlink" href="#casert">Ça sert à quoi ?</a>
         <a class="navlink" href="#comment">Comment ça marche ?</a>
         <a class="navlink" href="#pourqui">Pour qui ?</a>
+        <a class="navlink" href="#email">Recevoir l’email</a>
 
         <!-- CTAs -->
         <a class="navlink navCta primary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">
@@ -683,6 +688,23 @@
         Abonne-toi pour recevoir l’email quotidien, puis gère ton abonnement (pause / résiliation) via Stripe.
       </p>
 
+      <div class="twoCols" style="margin-top:14px;">
+        <div class="note" style="margin:0;">
+          <strong>Je reçois quoi ?</strong><br/>
+          1 mail quotidien <strong>entre 12h et 12h30</strong> avec le ou les matchs sélectionnés.
+        </div>
+        <div class="note" style="margin:0;">
+          <strong>Contenu de l’email :</strong>
+          <ul style="margin:10px 0 0; padding-left:18px; color: var(--muted);">
+            <li>Heure du match</li>
+            <li>Championnat / compétition</li>
+            <li>Équipe ayant l’avantage</li>
+            <li>Analyse rédigée</li>
+            <li>Statistiques des analyses de la saison</li>
+          </ul>
+        </div>
+      </div>
+
       <div class="ctaRow">
         <a class="btn btnPrimary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener" aria-label="S'abonner via Stripe">
           S’abonner (Stripe) <span aria-hidden="true">→</span>
@@ -697,6 +719,37 @@
       </div>
     </section>
 
+    <!-- Section 6 -->
+    <section id="pricing" class="sectionCard">
+      <p class="kicker">6 — Combien ça coûte ?</p>
+      <h2>Une formule simple, sans engagement</h2>
+
+      <div class="twoCols">
+        <div class="note" style="margin:0;">
+          <strong>Prix :</strong><br/>
+          <span style="font-size:28px; font-weight:900; color: var(--text);">3€</span>
+          <span style="color: var(--muted);"> / semaine</span>
+        </div>
+
+        <div class="note" style="margin:0;">
+          <strong>Conditions :</strong>
+          <ul style="margin:10px 0 0; padding-left:18px; color: var(--muted);">
+            <li>Sans engagement, résiliable à tout moment</li>
+            <li>Non remboursable (chaque semaine débutée est due)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ctaRow">
+        <a class="btn btnPrimary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener" aria-label="S'abonner via Stripe">
+          S’abonner (Stripe) <span aria-hidden="true">→</span>
+        </a>
+        <a class="btn" href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener" aria-label="Gérer mon abonnement via Stripe">
+          Gérer mon abonnement <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer>
       <div>
@@ -708,6 +761,7 @@
         <a href="#cestquoi">C’est quoi ?</a>
         <a href="#comment">Comment ça marche ?</a>
         <a href="#email">Recevoir l’email</a>
+        <a href="#pricing">Tarifs</a>
       </div>
 
       <div style="max-width: 58ch;">
@@ -723,6 +777,8 @@
       const backdrop = document.getElementById("navBackdrop");
       const nav = document.getElementById("topnav");
 
+      if (!burgerBtn || !backdrop || !nav) return;
+
       function openNav() {
         document.body.classList.add("nav-open");
         burgerBtn.setAttribute("aria-expanded", "true");
@@ -736,8 +792,7 @@
       }
 
       function toggleNav() {
-        if (document.body.classList.contains("nav-open")) closeNav();
-        else openNav();
+        document.body.classList.contains("nav-open") ? closeNav() : openNav();
       }
 
       burgerBtn.addEventListener("click", toggleNav);
@@ -750,6 +805,10 @@
 
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeNav();
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 980) closeNav();
       });
     })();
   </script>
