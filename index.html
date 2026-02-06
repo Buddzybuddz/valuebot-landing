@@ -475,23 +475,20 @@
       font-weight: 900;
     }
 
-    /* ✅ Section 5: cartes pleine largeur + contenu centré */
+    /* Section 5: cartes pleine largeur + contenu centré */
     .stackCards{
       display:grid;
       grid-template-columns: 1fr;
       gap: 10px;
       margin-top: 14px;
-      max-width: none;          /* ✅ pleine largeur */
       width: 100%;
     }
     .stackCard{
-      width: 100%;              /* ✅ pleine largeur */
+      width: 100%;
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.04);
       border-radius: 16px;
       padding: 16px 14px;
-
-      /* ✅ centre le contenu */
       text-align: center;
       display:flex;
       flex-direction:column;
@@ -511,10 +508,9 @@
       max-width: 70ch;
     }
 
-    /* ✅ Section 6: carte pleine largeur + contenu centré */
+    /* Section 6: carte pleine largeur + contenu centré */
     .priceWrap{
       width: 100%;
-      max-width: none;          /* ✅ pleine largeur */
       margin-top: 14px;
     }
     .priceCard{
@@ -530,8 +526,6 @@
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.10);
       background: rgba(255,255,255,0.03);
-
-      /* ✅ centre le contenu */
       text-align:center;
       display:flex;
       flex-direction:column;
@@ -556,6 +550,71 @@
       justify-content:center;
       margin-top: 14px;
     }
+
+    /* ===== FAQ (Accordion) ===== */
+    .faqList{
+      margin-top: 14px;
+      display:grid;
+      gap: 10px;
+    }
+
+    .faqItem{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      border-radius: 16px;
+      overflow:hidden;
+    }
+
+    .faqQ{
+      width:100%;
+      background: transparent;
+      border: 0;
+      padding: 16px 16px;
+      cursor: pointer;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+
+      color: var(--text);
+      font-weight: 900;
+      font-size: 16px;
+      text-align:left;
+    }
+
+    .faqQ .qText{ color: var(--text); }
+    .faqQ .chev{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+      transition: transform .18s ease;
+    }
+
+    .faqA{
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .22s ease;
+    }
+
+    .faqAInner{
+      padding: 0 16px 16px 16px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .faqItem.open .faqA{ max-height: 340px; } /* suffisant pour des réponses courtes */
+    .faqItem.open .faqQ .chev{ transform: rotate(180deg); }
+
+    .faqAInner p{ margin: 0; }
+    .faqAInner ul{ margin: 10px 0 0; padding-left: 18px; color: var(--muted); }
+    .faqAInner li{ margin: 6px 0; }
 
     /* Footer */
     footer{
@@ -593,6 +652,8 @@
       .wrap{ padding: 18px 14px 60px; }
       .sectionCard{ padding: 18px 14px; }
       .priceCard{ padding: 14px 14px; }
+      .faqQ{ padding: 14px 14px; }
+      .faqAInner{ padding: 0 14px 14px 14px; }
     }
   </style>
 </head>
@@ -624,6 +685,7 @@
           <a class="navlink" href="#pourqui">Pour qui ?</a>
           <a class="navlink" href="#je-recois">Je reçois quoi ?</a>
           <a class="navlink" href="#prix">Pour combien ?</a>
+          <a class="navlink" href="#faq">FAQ</a>
         </nav>
       </div>
     </div>
@@ -636,6 +698,7 @@
     <a href="#pourqui">Pour qui ?</a>
     <a href="#je-recois">Je reçois quoi ?</a>
     <a href="#prix">Pour combien ?</a>
+    <a href="#faq">FAQ</a>
     <a class="mobilePrimary" href="https://TON-LIEN-STRIPE-CHECKOUT" target="_blank" rel="noopener">Recevoir l’email</a>
     <a href="https://TON-LIEN-STRIPE-PORTAL" target="_blank" rel="noopener">Gérer mon abonnement</a>
   </nav>
@@ -747,7 +810,7 @@
     <!-- Section 5 -->
     <section id="je-recois" class="sectionCard">
       <p class="kicker">5 — Je reçois quoi ?</p>
-      <h2>1 email quotidien, clair et actionnable</h2>
+      <h2>1 email quotidien, clair et exploitable</h2>
       <p class="p">
         Tu reçois <strong>1 mail par jour entre 12h et 12h30</strong> avec le ou les matchs sélectionnés et une analyse complète.
       </p>
@@ -809,6 +872,87 @@
       </div>
     </section>
 
+    <!-- Section 7 : FAQ -->
+    <section id="faq" class="sectionCard">
+      <p class="kicker">7 — FAQ</p>
+      <h2>Questions fréquentes</h2>
+      <p class="p">Clique sur une question pour afficher la réponse.</p>
+
+      <div class="faqList" aria-label="FAQ">
+        <div class="faqItem">
+          <button class="faqQ" type="button" aria-expanded="false">
+            <span class="qText">À quelle heure est envoyé l’email ?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </button>
+          <div class="faqA">
+            <div class="faqAInner">
+              <p>L’email est envoyé <strong>chaque jour entre 12h et 12h30</strong> (heure locale), avec l’analyse du jour.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faqItem">
+          <button class="faqQ" type="button" aria-expanded="false">
+            <span class="qText">Combien de matchs puis-je recevoir dans un email ?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </button>
+          <div class="faqA">
+            <div class="faqAInner">
+              <p>Selon la journée, l’email peut contenir <strong>un ou plusieurs matchs</strong> (uniquement ceux jugés les plus pertinents).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faqItem">
+          <button class="faqQ" type="button" aria-expanded="false">
+            <span class="qText">Comment sont choisis les matchs “indécis” ?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </button>
+          <div class="faqA">
+            <div class="faqAInner">
+              <p>ValueBot priorise les rencontres où la lecture “simple” est difficile, puis compare les équipes via plusieurs familles d’indicateurs (forme, home/away, absences, historique, contexte...).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faqItem">
+          <button class="faqQ" type="button" aria-expanded="false">
+            <span class="qText">Puis-je me désabonner quand je veux ?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </button>
+          <div class="faqA">
+            <div class="faqAInner">
+              <p>Oui. L’offre est <strong>sans engagement</strong> et tu peux résilier à tout moment via le portail Stripe.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faqItem">
+          <button class="faqQ" type="button" aria-expanded="false">
+            <span class="qText">Le service est-il remboursable ?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </button>
+          <div class="faqA">
+            <div class="faqAInner">
+              <p>Non : <strong>toute semaine débutée est due</strong> (non remboursable).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faqItem">
+          <button class="faqQ" type="button" aria-expanded="false">
+            <span class="qText">Est-ce un conseil en pari sportif / financier ?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </button>
+          <div class="faqA">
+            <div class="faqAInner">
+              <p>Non. Les contenus sont <strong>informatifs</strong> : une analyse structurée pour aider à comprendre les matchs, sans garantie de résultat.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer>
       <div>
@@ -820,6 +964,7 @@
         <a href="#cestquoi">C’est quoi ?</a>
         <a href="#je-recois">Je reçois quoi ?</a>
         <a href="#prix">Pour combien ?</a>
+        <a href="#faq">FAQ</a>
       </div>
 
       <div style="max-width: 58ch;">
@@ -830,35 +975,60 @@
 
   <script>
     (function () {
+      // burger
       const burgerBtn = document.getElementById("burgerBtn");
       const mobileNav = document.getElementById("mobileNav");
-      if (!burgerBtn || !mobileNav) return;
 
       function openNav() {
         document.body.classList.add("nav-open");
-        burgerBtn.setAttribute("aria-expanded", "true");
+        burgerBtn && burgerBtn.setAttribute("aria-expanded", "true");
       }
       function closeNav() {
         document.body.classList.remove("nav-open");
-        burgerBtn.setAttribute("aria-expanded", "false");
+        burgerBtn && burgerBtn.setAttribute("aria-expanded", "false");
       }
       function toggleNav() {
         document.body.classList.contains("nav-open") ? closeNav() : openNav();
       }
 
-      burgerBtn.addEventListener("click", toggleNav);
+      if (burgerBtn && mobileNav) {
+        burgerBtn.addEventListener("click", toggleNav);
 
-      mobileNav.addEventListener("click", (e) => {
-        const a = e.target.closest("a");
-        if (a) closeNav();
-      });
+        mobileNav.addEventListener("click", (e) => {
+          const a = e.target.closest("a");
+          if (a) closeNav();
+        });
 
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeNav();
-      });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeNav();
+        });
 
-      window.addEventListener("resize", () => {
-        if (window.innerWidth > 980) closeNav();
+        window.addEventListener("resize", () => {
+          if (window.innerWidth > 980) closeNav();
+        });
+      }
+
+      // FAQ accordion
+      const items = Array.from(document.querySelectorAll(".faqItem"));
+      items.forEach((item) => {
+        const btn = item.querySelector(".faqQ");
+        if (!btn) return;
+
+        btn.addEventListener("click", () => {
+          const isOpen = item.classList.contains("open");
+
+          // Option: un seul ouvert à la fois (plus clean)
+          items.forEach((it) => {
+            it.classList.remove("open");
+            const b = it.querySelector(".faqQ");
+            if (b) b.setAttribute("aria-expanded", "false");
+          });
+
+          if (!isOpen) {
+            item.classList.add("open");
+            btn.setAttribute("aria-expanded", "true");
+          }
+        });
       });
     })();
   </script>
