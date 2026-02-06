@@ -37,16 +37,36 @@
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+
+    /* ✅ Fond uniforme noir */
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ✅ Glow uniquement en haut (ne se répète pas) */
+    body::before{
+      content:"";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 520px;                 /* zone de glow */
+      pointer-events: none;
+      z-index: -1;
+
       background:
         radial-gradient(1200px 600px at 25% 10%, rgba(255,255,255,0.10), transparent 60%),
         radial-gradient(900px 500px at 85% 20%, rgba(255,255,255,0.08), transparent 60%),
-        radial-gradient(900px 600px at 50% 100%, rgba(255,255,255,0.06), transparent 60%),
-        var(--bg);
-      line-height: 1.5;
+        radial-gradient(800px 420px at 55% 0%, rgba(95,211,255,0.06), transparent 62%);
+      /* fondu vers le bas */
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
     }
 
     a{ color:inherit; text-decoration:none; }
@@ -130,7 +150,6 @@
       align-items:center;
       justify-content:center;
     }
-    
     .burger span{
       display:block;
       width:20px;
@@ -145,16 +164,16 @@
     .navBackdrop{
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.75);
+      background: rgba(0,0,0,0.78);
       z-index: 40;
-      display:none;
     }
+    .navBackdrop[hidden]{ display:none !important; }
 
     /* ===== Sections base ===== */
     section{ margin-top: 26px; }
     .sectionCard{
       border:1px solid rgba(255,255,255,0.08);
-      background: #0b0d12; /* exactement la couleur du body */
+      background: #0b0d12; /* ✅ même fond -> plus de démarcation */
       border-radius: var(--radius2);
       padding: 22px 20px;
     }
@@ -458,7 +477,6 @@
       h1{ font-size: 38px; }
       .valuebot-inner{ min-height: 360px; }
 
-      /* Desktop nav hidden -> burger visible */
       .burger{ display:inline-flex; }
       .topnav{
         position: fixed;
@@ -505,7 +523,6 @@
         opacity: 1;
         pointer-events: auto;
       }
-      body.nav-open .navBackdrop{ display:block; }
     }
 
     @media (max-width: 520px){
@@ -554,7 +571,7 @@
     <!-- Backdrop (mobile) -->
     <div class="navBackdrop" id="navBackdrop" hidden></div>
 
-    <!-- Section 1 : ValueBot C'est quoi ? -->
+    <!-- Section 1 -->
     <section class="hero" id="cestquoi">
       <div class="heroCard">
         <h1 class="accentTitle">ValueBot, c’est quoi ?</h1>
@@ -596,7 +613,7 @@
       </aside>
     </section>
 
-    <!-- Section 2 : ValueBot Ça sert à quoi ? -->
+    <!-- Section 2 -->
     <section id="casert" class="sectionCard">
       <p class="kicker">2 — Ça sert à quoi ?</p>
       <h2>Gagner du temps et repérer des erreurs de cotation</h2>
@@ -615,7 +632,7 @@
       </ul>
     </section>
 
-    <!-- Section 3 : ValueBot Comment ça marche ? -->
+    <!-- Section 3 -->
     <section id="comment" class="sectionCard">
       <p class="kicker">3 — Comment ça marche ?</p>
       <h2>Un processus cyclique relancé chaque jour</h2>
@@ -642,7 +659,7 @@
       </div>
     </section>
 
-    <!-- Section 4 : Pour qui ? -->
+    <!-- Section 4 -->
     <section id="pourqui" class="sectionCard">
       <p class="kicker">4 — Pour qui ?</p>
       <h2>Pour les profils qui aiment analyser rationnellement</h2>
@@ -658,7 +675,7 @@
       </div>
     </section>
 
-    <!-- Section 5 : Recevoir l'email -->
+    <!-- Section 5 -->
     <section id="email" class="sectionCard">
       <p class="kicker">5 — Recevoir l’email quotidien</p>
       <h2>Recevoir l’analyse chaque jour</h2>
@@ -726,13 +743,11 @@
       burgerBtn.addEventListener("click", toggleNav);
       backdrop.addEventListener("click", closeNav);
 
-      // Fermer au clic sur un lien (utile en mobile)
       nav.addEventListener("click", (e) => {
         const a = e.target.closest("a");
         if (a) closeNav();
       });
 
-      // Fermer avec ESC
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeNav();
       });
