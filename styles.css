@@ -622,6 +622,12 @@ footer{
 .footerLinks a{ color: var(--muted2); border-bottom: 1px solid transparent; }
 .footerLinks a:hover{ color: var(--text); border-bottom-color: rgba(255,255,255,0.35); }
 
+.disclaimer {
+  max-width: 58ch;
+  margin: 0 auto;
+  text-align: center;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 980px){
   .hero{ grid-template-columns: 1fr; }
