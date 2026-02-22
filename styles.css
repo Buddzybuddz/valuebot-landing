@@ -699,3 +699,97 @@ footer{
   .faqQ{ padding: 14px 14px; }
   .faqAInner{ padding: 0 14px 14px 14px; }
 }
+
+/* ============================================================
+   Apple-like motion (fade + parallax léger) + hover premium
+   ============================================================ */
+
+/* Respect “Reduce Motion” */
+@media (prefers-reduced-motion: reduce){
+  .reveal, .valuebot-inner, .valuebot img, .valuebot-inner::before{
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Fade / reveal (Apple-like) */
+.reveal{
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(6px);
+  transition: opacity .75s ease, transform .75s ease, filter .75s ease;
+  will-change: opacity, transform, filter;
+}
+.reveal.is-in{
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Option: des timings un peu “Apple” */
+.reveal[data-reveal="slow"]{ transition-duration: .95s; }
+.reveal[data-reveal="fast"]{ transition-duration: .55s; }
+
+/* --- ValueBot card: hover premium --- */
+.valuebot-inner{
+  /* déjà présent chez toi, on enrichit */
+  transform: translateZ(0);
+  will-change: transform;
+  transition: transform .45s ease, box-shadow .45s ease;
+}
+
+/* “Shine” subtil (lumière qui glisse) */
+.valuebot-inner::before{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background: radial-gradient(600px 260px at 30% 20%,
+    rgba(255,255,255,0.28),
+    rgba(255,255,255,0.0) 60%
+  );
+  opacity: 0;
+  transform: translate3d(-6%, -6%, 0) rotate(8deg);
+  transition: opacity .45s ease, transform .45s ease;
+  pointer-events:none;
+  mix-blend-mode: screen;
+}
+
+/* Micro-zoom + contraste premium */
+.valuebot img{
+  transform: scale(1.001);
+  will-change: transform, filter;
+  transition: transform .55s ease, filter .55s ease;
+}
+
+@media (hover:hover){
+  .valuebot:hover .valuebot-inner{
+    transform: translateY(-2px);
+    box-shadow: 0 22px 60px rgba(0,0,0,0.22);
+  }
+  .valuebot:hover .valuebot-inner::before{
+    opacity: .9;
+    transform: translate3d(0, 0, 0) rotate(8deg);
+  }
+  .valuebot:hover img{
+    transform: scale(1.035);
+    filter: contrast(1.04) saturate(1.08);
+  }
+}
+
+/* Parallax: on déplacera l'image via JS (translateY) */
+.valuebot img{
+  transform-origin: center;
+}
+
+/* Petit “fade overlay” plus Apple sur l'image (optionnel) */
+.valuebot-overlay{
+  /* tu as déjà un gradient dark : on ajoute un léger voile pour un rendu plus “cinema” */
+  backdrop-filter: blur(2px);
+}
+
+/* ============================================================
+   (Optionnel) Reveal auto sur sections / cartes
+   Tu peux appliquer la classe .reveal dans ton HTML
+   ou on le fait via JS (recommandé)
+   ============================================================ */
