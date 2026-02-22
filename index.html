@@ -91,7 +91,14 @@
 
       <aside class="preview valuebot" aria-label="ValueBot — visuel">
         <div class="valuebot-inner">
-          <img src="assets/valuebot.png" alt="ValueBot" loading="eager" />
+          <img
+            src="assets/valuebot.png"
+            srcset="assets/valuebot.png 1x, assets/valuebot@2x.png 2x"
+            sizes="(max-width: 980px) 100vw, 420px"
+            alt="ValueBot"
+            loading="eager"
+            decoding="async"
+          />
           <div class="valuebot-overlay">
             <div class="pill">IA • Analyse • Indicateurs</div>
             <h3>ValueBot</h3>
