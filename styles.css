@@ -793,3 +793,28 @@ footer{
    Tu peux appliquer la classe .reveal dans ton HTML
    ou on le fait via JS (recommandé)
    ============================================================ */
+
+/* ===== Fix hover boutons bleus ===== */
+
+.btnPrimary,
+.btnPrimary:hover,
+.navCta.primary,
+.navCta.primary:hover{
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
+.btnPrimary:hover,
+.navCta.primary:hover{
+  background: var(--accent-hover);
+}
+
+.heroCard h1{
+  white-space: nowrap;
+}
+
+@media (max-width: 980px){
+  .heroCard h1{
+    white-space: normal;
+  }
+}
