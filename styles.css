@@ -121,7 +121,7 @@ header{
 
 /* Image : on la grossit puis on la décale pour enlever les marges */
 .logo .brandLogo{
-  height: 150px;           /* grossit l’image */
+  height: 200px;           /* grossit l’image */
   width: auto;
   display:block;
   transform: translateX(-6px); /* coupe le vide haut/bas */
