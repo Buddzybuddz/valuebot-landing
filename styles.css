@@ -82,12 +82,13 @@ header{
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border2);
+  padding-bottom: 4px;
 }
 
 .headerInner{
   max-width: var(--max);
   margin: 0 auto;
-  padding: 12px 18px;
+  padding: 8px 18px 4px; /* réduit verticalement */
 }
 
 .topRow{
@@ -148,7 +149,7 @@ header{
 
 /* Menu centré (desktop) */
 .menuRow{
-  margin-top: 8px;
+  margin-top: 2px;
   display:flex;
   justify-content:center;
 }
@@ -159,7 +160,7 @@ header{
   justify-content:center;
   gap: 16px;
   flex-wrap: wrap;
-  padding-bottom: 8px;
+  padding-bottom: 2px;
 }
 
 .navlink{
