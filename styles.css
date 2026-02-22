@@ -108,18 +108,11 @@ header{
   min-width: 0;
 }
 
-.logo{
-  width:34px;
-  height:34px;
-  border-radius: 10px;
-  border:1px solid var(--border2);
-  background: linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.02));
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-  display:grid;
-  place-items:center;
-  font-size: 16px;
-  flex: 0 0 auto;
-  color: var(--text);
+.logo img{
+  height: 32px;
+  width: auto;
+  display:block;
+  object-fit: contain;
 }
 
 .ctaRowTop{
