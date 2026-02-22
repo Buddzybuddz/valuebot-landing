@@ -111,7 +111,7 @@ header{
 
 /* Conteneur logo : on fixe une “fenêtre” */
 .logo{
-  width: 240px;            /* augmente la présence */
+  width: 250px;            /* augmente la présence */
   height: 72px;            /* hauteur perçue */
   display:flex;
   align-items:center;
@@ -124,7 +124,7 @@ header{
   height: 150px;           /* grossit l’image */
   width: auto;
   display:block;
-  transform: translateY(-24px) translateX(-6px); /* coupe le vide haut/bas */
+  transform: translateX(-6px); /* coupe le vide haut/bas */
   transform-origin: left center;
 }
 
