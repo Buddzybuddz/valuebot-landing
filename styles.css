@@ -88,7 +88,7 @@ header{
 .headerInner{
   max-width: var(--max);
   margin: 0 auto;
-  padding: 6px 18px; /* réduit verticalement */
+  padding: 8px 18px; /* réduit verticalement */
 }
 
 .topRow{
@@ -109,10 +109,23 @@ header{
   min-width: 0;
 }
 
-.logo img{
-  height: 90px;   /* idéal pour un header premium */
+/* Conteneur logo : on fixe une “fenêtre” */
+.logo{
+  width: 220px;            /* augmente la présence */
+  height: 64px;            /* hauteur perçue */
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  overflow:hidden;         /* IMPORTANT: on coupe le vide */
+}
+
+/* Image : on la grossit puis on la décale pour enlever les marges */
+.logo .brandLogo{
+  height: 140px;           /* grossit l’image */
   width: auto;
   display:block;
+  transform: translateY(-34px) translateX(-6px); /* coupe le vide haut/bas */
+  transform-origin: left center;
 }
 
 .ctaRowTop{
@@ -148,7 +161,7 @@ header{
 
 /* Menu centré (desktop) */
 .menuRow{
-  margin-top: 0px;
+  margin-top: 4px;
   display:flex;
   justify-content:center;
 }
@@ -159,7 +172,7 @@ header{
   justify-content:center;
   gap: 16px;
   flex-wrap: wrap;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
 }
 
 .navlink{
