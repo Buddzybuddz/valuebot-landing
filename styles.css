@@ -110,10 +110,9 @@ header{
 }
 
 .logo img{
-  height: 250px;
+  height: 60px;   /* idéal pour un header premium */
   width: auto;
   display:block;
-  object-fit: contain;
 }
 
 .ctaRowTop{
