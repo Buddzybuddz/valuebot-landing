@@ -41,7 +41,7 @@
   }
 
   // =========================
-  // FAQ accordion
+  // FAQ accordion (1 seul ouvert)
   // =========================
   const items = Array.from(document.querySelectorAll(".faqItem"));
 
@@ -65,4 +65,83 @@
       }
     });
   });
+
+  // =========================
+  // Apple-like reveal (fade in on scroll)
+  // =========================
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const revealTargets = [
+    ...document.querySelectorAll(".heroCard, .preview, section.sectionCard, footer")
+  ];
+
+  // Ajoute .reveal automatiquement (CSS: .reveal + .is-in)
+  revealTargets.forEach((el) => el.classList.add("reveal"));
+
+  if (!prefersReduced && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-in");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { root: null, threshold: 0.14, rootMargin: "0px 0px -6% 0px" }
+    );
+
+    revealTargets.forEach((el) => io.observe(el));
+  } else {
+    // Fallback: tout visible
+    revealTargets.forEach((el) => el.classList.add("is-in"));
+  }
+
+  // =========================
+  // Parallax léger sur l'image ValueBot
+  // - désactivé sur mobile / touch / reduced motion
+  // =========================
+  if (!prefersReduced) {
+    const card = document.querySelector(".valuebot-inner");
+    const img = card ? card.querySelector("img") : null;
+
+    const isTouch =
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia("(hover: none)").matches;
+
+    if (card && img && !isTouch) {
+      let raf = null;
+
+      const update = () => {
+        raf = null;
+
+        const rect = card.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+
+        // progress -1..1 autour du centre de l'écran
+        const center = rect.top + rect.height / 2;
+        const p = (center - vh / 2) / (vh / 2);
+        const clamped = Math.max(-1, Math.min(1, p));
+
+        // amplitude ultra légère (max ~10px)
+        const y = clamped * 10;
+
+        // IMPORTANT:
+        // Le micro-zoom hover premium (CSS) prend le relais au hover.
+        // Ici on applique un transform de base "parallax + léger scale"
+        img.style.transform = `translate3d(0, ${y.toFixed(2)}px, 0) scale(1.02)`;
+      };
+
+      const onScroll = () => {
+        if (raf) return;
+        raf = requestAnimationFrame(update);
+      };
+
+      // init + listeners
+      update();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+    }
+  }
 })();
