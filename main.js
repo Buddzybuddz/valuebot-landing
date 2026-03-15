@@ -153,24 +153,63 @@
 const SUPABASE_URL = "https://zdedwolwawmloodopioh.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkZWR3b2x3YXdtbG9vZG9waW9oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3NzUzNzAsImV4cCI6MjA3NTM1MTM3MH0.sp9-4ZHO_bUxAIDWhRWUFkj44kSM4utN_wRoxbpFIto";
 
-async function fetchJson(url) {
-  const res = await fetch(url, {
-    method: "GET",
-    headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-      "Accept-Profile": "valuebet",
-      "Content-Type": "application/json"
+async function loadValueBotPerformance() {
+  const pctEl = document.getElementById("pctWinValue");
+  const avgEl = document.getElementById("avgOddsValue");
+  const listEl = document.getElementById("analysisList");
+
+  if (!pctEl || !avgEl || !listEl) return;
+
+  try {
+    const statsUrl =
+      `${SUPABASE_URL}/rest/v1/statistiques_roi_v2` +
+      `?select=pct_win_total_value,cote_moyenne_total_value,season` +
+      `&order=season.desc` +
+      `&limit=1`;
+
+    const analysesUrl =
+      `${SUPABASE_URL}/rest/v1/value_bet_ia_roi_v2` +
+      `?select=date,league_name,team_name,bet_type,analyse` +
+      `&analyse=not.is.null` +
+      `&order=date.desc` +
+      `&limit=4`;
+
+    const [statsData, analysesData] = await Promise.all([
+      fetchJson(statsUrl),
+      fetchJson(analysesUrl)
+    ]);
+
+    console.log("statsData =", statsData);
+    console.log("analysesData =", analysesData);
+
+    const stats = Array.isArray(statsData) && statsData.length ? statsData[0] : null;
+
+    pctEl.textContent = formatPct(stats?.pct_win_total_value);
+    avgEl.textContent = formatOdds(stats?.cote_moyenne_total_value);
+
+    if (!analysesData || !analysesData.length) {
+      listEl.innerHTML = `<div class="analysisItem empty">Aucune analyse récente disponible.</div>`;
+      return;
     }
-  });
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    console.error("Erreur Supabase:", res.status, errorText);
-    throw new Error(`HTTP ${res.status} - ${errorText}`);
+    listEl.innerHTML = analysesData.map(item => `
+      <article class="analysisItem">
+        <div class="analysisMeta">
+          <span>${escapeHtml(item.date || "")}</span>
+          ${item.league_name ? `<span>${escapeHtml(item.league_name)}</span>` : ""}
+          ${item.team_name ? `<span>${escapeHtml(item.team_name)}</span>` : ""}
+          ${item.bet_type ? `<span>${escapeHtml(item.bet_type)}</span>` : ""}
+        </div>
+        <div class="analysisText">${escapeHtml(truncateText(item.analyse, 300))}</div>
+      </article>
+    `).join("");
+
+  } catch (error) {
+    console.error("Erreur chargement stats ValueBot :", error);
+    pctEl.textContent = "--";
+    avgEl.textContent = "--";
+    listEl.innerHTML = `<div class="analysisItem error">${escapeHtml(error.message)}</div>`;
   }
-
-  return res.json();
 }
 
 function formatPct(value) {
@@ -208,8 +247,8 @@ async function loadValueBotPerformance() {
   try {
     const statsUrl =
       `${SUPABASE_URL}/rest/v1/statistiques_roi_v2` +
-      `?select=pct_win_total_value,cote_moyenne_total_value,annee` +
-      `&order=annee.desc` +
+      `?select=pct_win_total_value,cote_moyenne_total_value,season` +
+      `&order=season.desc` +
       `&limit=1`;
 
     const analysesUrl =
