@@ -254,7 +254,7 @@ async function loadValueBotPerformance() {
           ${item.team_name ? `<span>${escapeHtml(item.team_name)}</span>` : ""}
           ${item.bet_type ? `<span>${escapeHtml(item.bet_type)}</span>` : ""}
         </div>
-        <div class="analysisText">${escapeHtml(truncateText(item.analyse, 300))}</div>
+        <div class="analysisText">${truncateText(item.analyse, 300)}</div>
       </article>
     `).join("");
 
