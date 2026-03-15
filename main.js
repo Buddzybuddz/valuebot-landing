@@ -172,12 +172,6 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
-function truncateText(text, max = 300) {
-  const clean = String(text || "").trim();
-  if (clean.length <= max) return clean;
-  return clean.slice(0, max).trim() + "...";
-}
-
 async function loadValueBotPerformance() {
   const pctEl = document.getElementById("pctWinValue");
   const avgEl = document.getElementById("avgOddsValue");
@@ -186,6 +180,7 @@ async function loadValueBotPerformance() {
   if (!pctEl || !avgEl || !listEl) return;
 
   try {
+    // Stats
     const statsUrl =
       `${SUPABASE_URL}/rest/v1/statistiques_roi_v2` +
       `?select=pct_win_total_value,cote_moyenne_total_value,season` +
@@ -215,10 +210,14 @@ async function loadValueBotPerformance() {
     pctEl.textContent = formatPct(stats?.pct_win_total_value);
     avgEl.textContent = formatOdds(stats?.cote_moyenne_total_value);
 
+    // Analyses avant aujourd'hui
+    const today = new Date().toISOString().split("T")[0];
+
     const analysesUrl =
       `${SUPABASE_URL}/rest/v1/value_bet_ia_roi_v2` +
-      `?select=date,league_name,team_name,bet_type,analyse` +
+      `?select=date,league_name,team_name,analyse` +
       `&analyse=not.is.null` +
+      `&date=lt.${today}` +
       `&order=date.desc` +
       `&limit=4`;
 
@@ -252,9 +251,8 @@ async function loadValueBotPerformance() {
           <span>${escapeHtml(item.date || "")}</span>
           ${item.league_name ? `<span>${escapeHtml(item.league_name)}</span>` : ""}
           ${item.team_name ? `<span>${escapeHtml(item.team_name)}</span>` : ""}
-          ${item.bet_type ? `<span>${escapeHtml(item.bet_type)}</span>` : ""}
         </div>
-        <div class="analysisText">${truncateText(item.analyse, 300)}</div>
+        <div class="analysisText">${item.analyse || ""}</div>
       </article>
     `).join("");
 
