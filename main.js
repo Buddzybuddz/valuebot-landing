@@ -151,18 +151,23 @@
 // =========================
 
 const SUPABASE_URL = "https://zdedwolwawmloodopioh.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkZWR3b2x3YXdtbG9vZG9waW9oIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTc3NTM3MCwiZXhwIjoyMDc1MzUxMzcwfQ.eUr9-5wZv0twxRKIvG503H-h-6fVnn4e9aensM2V6Yg";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkZWR3b2x3YXdtbG9vZG9waW9oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3NzUzNzAsImV4cCI6MjA3NTM1MTM3MH0.sp9-4ZHO_bUxAIDWhRWUFkj44kSM4utN_wRoxbpFIto";
 
 async function fetchJson(url) {
   const res = await fetch(url, {
+    method: "GET",
     headers: {
       apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      "Accept-Profile": "valuebet",
+      "Content-Type": "application/json"
     }
   });
 
   if (!res.ok) {
-    throw new Error(`HTTP ${res.status}`);
+    const errorText = await res.text();
+    console.error("Erreur Supabase:", res.status, errorText);
+    throw new Error(`HTTP ${res.status} - ${errorText}`);
   }
 
   return res.json();
@@ -187,6 +192,12 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
+function truncateText(text, max = 300) {
+  const clean = String(text || "").trim();
+  if (clean.length <= max) return clean;
+  return clean.slice(0, max).trim() + "...";
+}
+
 async function loadValueBotPerformance() {
   const pctEl = document.getElementById("pctWinValue");
   const avgEl = document.getElementById("avgOddsValue");
@@ -195,14 +206,12 @@ async function loadValueBotPerformance() {
   if (!pctEl || !avgEl || !listEl) return;
 
   try {
-    // 1) Récup statistique la plus récente
     const statsUrl =
       `${SUPABASE_URL}/rest/v1/statistiques_roi_v2` +
       `?select=pct_win_total_value,cote_moyenne_total_value,annee` +
       `&order=annee.desc` +
       `&limit=1`;
 
-    // 2) Dernières analyses écrites non nulles
     const analysesUrl =
       `${SUPABASE_URL}/rest/v1/value_bet_ia_roi_v2` +
       `?select=date,league_name,team_name,bet_type,analyse` +
@@ -233,7 +242,7 @@ async function loadValueBotPerformance() {
           ${item.team_name ? `<span>${escapeHtml(item.team_name)}</span>` : ""}
           ${item.bet_type ? `<span>${escapeHtml(item.bet_type)}</span>` : ""}
         </div>
-        <div class="analysisText">${escapeHtml(item.analyse)}</div>
+        <div class="analysisText">${escapeHtml(truncateText(item.analyse, 300))}</div>
       </article>
     `).join("");
 
