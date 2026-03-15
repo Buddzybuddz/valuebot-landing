@@ -163,6 +163,12 @@ function formatOdds(value) {
   return Number(value).toFixed(2);
 }
 
+function formatDateFR(dateStr) {
+  if (!dateStr) return "";
+  const [year, month, day] = dateStr.split("-");
+  return `${day}-${month}-${year}`;
+}
+
 function escapeHtml(str) {
   return String(str || "")
     .replace(/&/g, "&amp;")
@@ -248,7 +254,7 @@ async function loadValueBotPerformance() {
     listEl.innerHTML = analysesData.map(item => `
       <article class="analysisItem">
         <div class="analysisMeta">
-          <span>${escapeHtml(item.date || "")}</span>
+          <span>${formatDateFR(item.date)}</span>
           ${item.league_name ? `<span>${escapeHtml(item.league_name)}</span>` : ""}
           ${item.team_name ? `<span>${escapeHtml(item.team_name)}</span>` : ""}
         </div>
