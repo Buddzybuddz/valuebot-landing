@@ -221,6 +221,41 @@
       </div>
     </section>
 
+    <!-- Section 6 bis -->
+    <section id="performances" class="sectionCard">
+      <p class="kicker">6 — Performances</p>
+      <h2 class="accentTitle">Des analyses suivies dans le temps</h2>
+      <p class="p">
+        ValueBot ne se contente pas d’écrire des analyses : les résultats sont suivis pour mesurer
+        leur validation et la cohérence des cotes moyennes proposées.
+      </p>
+    
+      <div class="statsGrid" aria-label="Statistiques ValueBot">
+        <div class="statCard">
+          <div class="statLabel">% d’analyses validées</div>
+          <div class="statValue" id="pctWinValue">--</div>
+          <div class="statHint">Basé sur les analyses “value” cumulées</div>
+        </div>
+    
+        <div class="statCard">
+          <div class="statLabel">Cote moyenne</div>
+          <div class="statValue" id="avgOddsValue">--</div>
+          <div class="statHint">Cote moyenne des analyses sélectionnées</div>
+        </div>
+      </div>
+    
+      <div class="latestAnalysisBox">
+        <div class="latestAnalysisHead">
+          <h3>Dernières analyses écrites</h3>
+          <p>Exemples récents d’analyses générées par ValueBot.</p>
+        </div>
+    
+        <div class="analysisList" id="analysisList">
+          <div class="analysisItem loading">Chargement des analyses...</div>
+        </div>
+      </div>
+    </section>
+
     <!-- Section 6 -->
     <section id="prix" class="sectionCard">
       <p class="kicker">6 — Combien ça coûte ?</p>
