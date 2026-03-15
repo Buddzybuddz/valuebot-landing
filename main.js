@@ -145,3 +145,106 @@
     }
   }
 })();
+
+// =========================
+// ValueBot - Stats + analyses
+// =========================
+
+const SUPABASE_URL = "https://zdedwolwawmloodopioh.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkZWR3b2x3YXdtbG9vZG9waW9oIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTc3NTM3MCwiZXhwIjoyMDc1MzUxMzcwfQ.eUr9-5wZv0twxRKIvG503H-h-6fVnn4e9aensM2V6Yg";
+
+async function fetchJson(url) {
+  const res = await fetch(url, {
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+    }
+  });
+
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}`);
+  }
+
+  return res.json();
+}
+
+function formatPct(value) {
+  if (value === null || value === undefined || isNaN(Number(value))) return "--";
+  return `${Number(value).toFixed(1)}%`;
+}
+
+function formatOdds(value) {
+  if (value === null || value === undefined || isNaN(Number(value))) return "--";
+  return Number(value).toFixed(2);
+}
+
+function escapeHtml(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+async function loadValueBotPerformance() {
+  const pctEl = document.getElementById("pctWinValue");
+  const avgEl = document.getElementById("avgOddsValue");
+  const listEl = document.getElementById("analysisList");
+
+  if (!pctEl || !avgEl || !listEl) return;
+
+  try {
+    // 1) Récup statistique la plus récente
+    const statsUrl =
+      `${SUPABASE_URL}/rest/v1/statistiques_roi_v2` +
+      `?select=pct_win_total_value,cote_moyenne_total_value,annee` +
+      `&order=annee.desc` +
+      `&limit=1`;
+
+    // 2) Dernières analyses écrites non nulles
+    const analysesUrl =
+      `${SUPABASE_URL}/rest/v1/value_bet_ia_roi_v2` +
+      `?select=date,league_name,team_name,bet_type,analyse` +
+      `&analyse=not.is.null` +
+      `&order=date.desc` +
+      `&limit=4`;
+
+    const [statsData, analysesData] = await Promise.all([
+      fetchJson(statsUrl),
+      fetchJson(analysesUrl)
+    ]);
+
+    const stats = Array.isArray(statsData) && statsData.length ? statsData[0] : null;
+
+    pctEl.textContent = formatPct(stats?.pct_win_total_value);
+    avgEl.textContent = formatOdds(stats?.cote_moyenne_total_value);
+
+    if (!analysesData || !analysesData.length) {
+      listEl.innerHTML = `<div class="analysisItem empty">Aucune analyse récente disponible.</div>`;
+      return;
+    }
+
+    listEl.innerHTML = analysesData.map(item => `
+      <article class="analysisItem">
+        <div class="analysisMeta">
+          <span>${escapeHtml(item.date || "")}</span>
+          ${item.league_name ? `<span>${escapeHtml(item.league_name)}</span>` : ""}
+          ${item.team_name ? `<span>${escapeHtml(item.team_name)}</span>` : ""}
+          ${item.bet_type ? `<span>${escapeHtml(item.bet_type)}</span>` : ""}
+        </div>
+        <div class="analysisText">${escapeHtml(item.analyse)}</div>
+      </article>
+    `).join("");
+
+  } catch (error) {
+    console.error("Erreur chargement stats ValueBot :", error);
+    pctEl.textContent = "--";
+    avgEl.textContent = "--";
+    listEl.innerHTML = `<div class="analysisItem error">Impossible de charger les statistiques et les analyses pour le moment.</div>`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadValueBotPerformance();
+});
