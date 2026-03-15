@@ -905,6 +905,16 @@ footer{
 .analysisText{
   line-height:1.6;
   white-space:pre-line;
+    color:#333;
+}
+
+.analysisText em{
+  font-style:normal;
+  font-weight:600;
+}
+
+.analysisText strong{
+  font-weight:700;
 }
 
 .analysisItem.loading,
