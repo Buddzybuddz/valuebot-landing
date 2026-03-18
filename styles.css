@@ -111,7 +111,7 @@ header{
 
 /* Conteneur logo : on fixe une “fenêtre” */
 .logo{
-  height: 120px;            /* hauteur perçue */
+  height: 70px;            /* hauteur perçue réduite pour réduire l'espace */
   display:flex;
   align-items:center;
   justify-content:flex-start;
@@ -119,7 +119,8 @@ header{
 
 /* Image : on la grossit puis on la décale pour enlever les marges */
 .logo .brandLogo{
-  height: 100%;           /* grossit l’image */
+  height: 110px;           /* grossit l’image hors du conteneur */
+  margin-left: -5px;       /* recentrage */
   width: auto;
   display:block;
 }
