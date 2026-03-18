@@ -111,21 +111,17 @@ header{
 
 /* Conteneur logo : on fixe une “fenêtre” */
 .logo{
-  width: 250px;            /* augmente la présence */
-  height: 72px;            /* hauteur perçue */
+  height: 40px;            /* hauteur perçue */
   display:flex;
   align-items:center;
   justify-content:flex-start;
-  overflow:hidden;         /* IMPORTANT: on coupe le vide */
 }
 
 /* Image : on la grossit puis on la décale pour enlever les marges */
 .logo .brandLogo{
-  height: 200px;           /* grossit l’image */
+  height: 100%;           /* grossit l’image */
   width: auto;
   display:block;
-  transform: translateX(-6px); /* coupe le vide haut/bas */
-  transform-origin: left center;
 }
 
 .ctaRowTop{
