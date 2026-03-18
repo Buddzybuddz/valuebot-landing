@@ -111,7 +111,7 @@ header{
 
 /* Conteneur logo : on fixe une “fenêtre” */
 .logo{
-  height: 40px;            /* hauteur perçue */
+  height: 120px;            /* hauteur perçue */
   display:flex;
   align-items:center;
   justify-content:flex-start;
