@@ -151,7 +151,7 @@
 // =========================
 
 const SUPABASE_URL = "https://zdedwolwawmloodopioh.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkZWR3b2x3YXdtbG9vZG9waW9oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3NzUzNzAsImV4cCI6MjA3NTM1MTM3MH0.sp9-4ZHO_bUxAIDWhRWUFkj44kSM4utN_wRoxbpFIto";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" + ".eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkZWR3b2x3YXdtbG9vZG9waW9oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3NzUzNzAsImV4cCI6MjA3NTM1MTM3MH0" + ".sp9-4ZHO_bUxAIDWhRWUFkj44kSM4utN_wRoxbpFIto";
 
 function formatPct(value) {
   if (value === null || value === undefined || isNaN(Number(value))) return "--";
