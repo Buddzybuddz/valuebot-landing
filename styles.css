@@ -871,9 +871,6 @@ footer{
 .latestAnalysisBox{
   margin-top:28px;
   padding:22px;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.08);
-  background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.015));
 }
 
 .latestAnalysisHead{
@@ -896,10 +893,10 @@ footer{
 }
 
 .analysisItem{
-  padding:16px 18px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,0.08);
-  background:rgba(255,255,255,0.02);
+  padding:18px 16px;
+  border-radius:20px;
+  border:1px solid var(--border2);
+  background:var(--surface2);
 }
 
 .analysisMeta{
