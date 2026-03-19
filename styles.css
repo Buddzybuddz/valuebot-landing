@@ -119,8 +119,8 @@ header{
 
 /* Image : on la grossit puis on la décale pour enlever les marges */
 .logo .brandLogo{
-  height: 110px;           /* grossit l’image hors du conteneur */
-  margin-left: -5px;       /* recentrage */
+  height: 500px; margin-top: -50px;           /* grossit l’image hors du conteneur */
+  margin-left: -100px;       /* recentrage */
   width: auto;
   display:block;
 }
