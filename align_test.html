@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { font-family: sans-serif; background: #eee;}
+
+  .headerInner {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 8px 18px;
+    background: white;
+
+    display: grid;
+    /* Let's define columns that match the navlinks!
+       8 navlinks = 8 columns
+       + spacing between them = grid gap 16px
+    */
+    grid-template-columns: max-content max-content max-content max-content max-content max-content max-content max-content;
+    column-gap: 16px;
+    row-gap: 4px;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Top row elements */
+  .brand {
+    /* "partie gauche du logo aligner avec le "C" de "C'est quoi ?" (col 1)
+       partie droite du logo aligner avec le "?" de "Comment ca marche ?" (col 3) */
+    grid-column: 1 / 4;
+    grid-row: 1;
+
+    /* Navlink padding is 8px 10px. Left text is 10px in. Right text is 10px in. */
+    margin-left: 10px;
+    margin-right: 10px;
+
+    display: flex;
+    align-items: center;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+  }
+
+  .logo .brandLogo {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    /* remove original huge margins and heights */
+  }
+
+  .ctaRowTop {
+    /* partie droite du bouton "Gérer mon abonnement" soit aligner avec le "Q" de "FAQ" (col 8) */
+    grid-column: 4 / 9;
+    grid-row: 1;
+
+    justify-self: end;
+    /* FAQ padding-right is 10px */
+    margin-right: 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .burger {
+    display: none; /* hidden on desktop */
+  }
+
+  /* Navlinks (originally in .menuRow > .topnav)
+     To put them in the grid, we need to bypass .menuRow and .topnav or change the grid parent.
+     If we don't want to change HTML structure, we can make .headerInner a grid?
+     No, .brand and .navlink are not siblings.
+  */
+
+</style>
+</head>
+<body>
+</body>
+</html>

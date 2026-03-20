@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { font-family: sans-serif; background: #eee;}
+  .headerInner {
+    display: grid;
+    grid-template-columns: max-content max-content max-content max-content max-content max-content max-content max-content;
+    column-gap: 16px;
+    row-gap: 8px; /* space between top row and bottom row */
+    justify-content: center;
+    padding: 20px;
+    background: white;
+  }
+
+  .brand {
+    grid-column: 1 / 4;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: lightblue;
+    display: flex;
+    align-items: center; /* vertical center */
+  }
+  .brandLogo {
+    width: 100%;
+    /* Let the width stretch to fill the container? Or just 100% and height auto? */
+    /* If the brand container has a specific width determined by the grid (nav links + gaps),
+       we want the logo to perfectly fit that width! */
+    width: 100%;
+    height: auto;
+    max-height: 80px; /* Just in case */
+    object-fit: contain;
+    /* User said logo is too big now. If we constrain it to 100% width of columns 1-3 minus 20px, it will be the exact width! */
+  }
+
+  .ctaRowTop {
+    grid-column: 4 / 9;
+    justify-self: end;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .navlink {
+    padding: 8px 10px;
+    background: #f5f5f5;
+    text-align: center;
+    border-radius: 999px;
+  }
+  button {
+    padding: 8px 16px;
+  }
+</style>
+</head>
+<body>
+<div class="headerInner">
+  <!-- Top row items -->
+  <div class="brand">
+    <img class="brandLogo" src="https://via.placeholder.com/600x200?text=VALUEBOT" />
+  </div>
+  <div class="ctaRowTop">
+    <button>Recevoir</button>
+    <button>Gérer mon abonnement</button>
+  </div>
+
+  <!-- Bottom row items (nav links) -->
+  <div class="navlink">C'est quoi ?</div>
+  <div class="navlink">Ça sert à quoi ?</div>
+  <div class="navlink">Comment ça marche ?</div>
+  <div class="navlink">Pour qui ?</div>
+  <div class="navlink">Je reçois quoi ?</div>
+  <div class="navlink">Performances</div>
+  <div class="navlink">Pour combien ?</div>
+  <div class="navlink">FAQ</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { font-family: sans-serif; background: #eee;}
+  .headerInner {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 8px 18px;
+    background: white;
+  }
+
+  .headerContainer {
+    display: grid;
+    /* We have 8 navlinks. Let's make them grid items. */
+    /* topRow elements can span across these columns */
+    grid-template-columns: max-content max-content max-content max-content max-content max-content max-content max-content;
+    column-gap: 16px;
+    row-gap: 8px; /* space between rows */
+    justify-content: center;
+    padding-bottom: 6px;
+  }
+
+  /* The problem with changing HTML structure is that `.topnav` has its own styles and `.burger` is inside `.topRow`.
+     Let's check `index.html` structure:
+     <div class="headerInner">
+       <div class="topRow">
+         <div class="brand">...</div>
+         <div class="ctaRowTop">...</div>
+         <button class="burger">...</button>
+       </div>
+       <div class="menuRow">
+         <nav class="topnav">
+           <a ...>...</a> x8
+         </nav>
+       </div>
+     </div>
+  */
+</style>
+</head>
+<body>
+</body>
+</html>
